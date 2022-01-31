@@ -6,17 +6,32 @@
 
 \usepackage{macros}
 
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+
+\titleformat{\subsection}
+    {\large} % format
+    {} % label
+    {1em} % spacing
+    {} % before code
+    {} % after code
+
 
 \begin{document}
 
 { ~\\
-    \course \\ 
-    \proj \\ 
+    River Kelly \\
+    \course \\
+    \proj \\
+    Feb 3, 2022 \\
 }
 
 \section*{Problem 1 (2 points)}
 
 What are the two main types of attributes typically found in data?
+\begin{tcolorbox}[width=\linewidth,title=Problem 1]
+The two main types of attributes typically found in data are: \textbf{Qualitative and Quantitative}.
+\end{tcolorbox}
 
 \section*{Problem 2 (14 points)}
 
@@ -35,16 +50,179 @@ $$
     \end{matrix}
 $$
 
-\begin{enumerate}
-    \item (2 points) What is the estimated mean of $X_3$?
-    \item (2 points) What is the estimated covariance between $X_1$ and $X_3$?
-    \item (2 points) What is the estimated multi-dimensional mean of $D$?
-    \item (2 points) What is the estimated variance of $X_2$?
-    \item (2 points) What is the covariance matrix of $D$?
-    \item (2 points) What is the estimated correlation between $X_1$ and $X_3$?
-    \item (2 points) What is the total variance $D$?
-\end{enumerate}
+% 2.1
+% --------------------------------------------------------------------
+\subsection*{\textbf{1. (2 points)} What is the estimated mean of $X_3$?}
 
+\begin{align*}
+    \hat{\mu_3} &= \frac{1}{7} \sum_{i=7}^{7} x_{i3}\\
+    &= \frac{1}{7}(5.6 + 5.2 + 5.2 + 5.1 + 5.7 + 5.4 + 5.5)\\
+    &= 5.4
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 2.1]
+    $\hat{\mu_3} = $ \textbf{5.4}
+\end{tcolorbox}
+
+% 2.2
+% --------------------------------------------------------------------
+\newpage
+\subsection*{\textbf{2. (2 points)} What is the estimated covariance between $X_1$ and $X_3$?}
+
+First, we find $\hat{\mu_1}$ and $\hat{\mu_3}$.
+
+\begin{align*}
+    \hat{\mu_1} & = \frac{1}{7} \sum_{i=7}^{7} x_{i1} \\
+    & = \frac{1}{7}(0.3 + 0.4 + 1.8 + 6.0 + -0.5 + 0.4 + 1.1) \\
+    & = 1.4
+\end{align*}
+
+$\hat{\mu_1} = 1.4$ and $\hat{\mu_3} = 5.4$ \textit{($\hat{\mu_3}$ from above)} \\
+
+Now, covariance between $X_1$ and $X_3$.
+
+$$\hat{\sigma}_{13} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i1} - \hat{\mu_1})(x_{i3} - \hat{\mu_3})$$
+
+\begin{multline*}
+    \hat{\sigma}_{13} = \frac{1}{6}( 
+        (0.3 - 1.4)(5.6 - 5.4)
+        + (0.4 - 1.4)(5.2 - 5.4)
+        + (1.8 - 1.4)(5.2 - 5.4) \\
+        + (6.0 - 1.4)(5.1 - 5.4)
+        + (-0.5 - 1.4)(5.7 - 5.4)
+        + (0.4 - 1.4)(5.4 - 5.4) \\
+        + (1.1 - 1.4)(5.5 - 5.4) )
+\end{multline*}
+
+\begin{tcolorbox}[title=Problem 2.2]
+    $\hat{\sigma}_{13} = $ \textbf{-0.35}
+\end{tcolorbox}
+
+% 2.3
+% --------------------------------------------------------------------
+\subsection*{\textbf{3. (2 points)} What is the estimated multi-dimensional mean of $D$?}
+
+$$\hat{\mu} = \frac{1}{n} \sum_{i=1}^{n} x_{i}$$
+
+\begin{multline*}
+    \hat{\mu} = \frac{1}{7} ( 
+        (0.3 \hspace{.3cm} 23 \hspace{.3cm} 5.6)
+        + (0.4 \hspace{.3cm} 1 \hspace{.3cm} 5.2)
+        + (1.8 \hspace{.3cm} 4 \hspace{.3cm} 5.2)
+        + (6.0 \hspace{.3cm} 50 \hspace{.3cm} 5.1) \\
+        + (-0.5 \hspace{.3cm} 34 \hspace{.3cm} 5.7)
+        + (0.4 \hspace{.3cm} 19 \hspace{.3cm} 5.4)
+        + (1.1 \hspace{.3cm} 11 \hspace{.3cm} 5.5) )
+\end{multline*}
+
+\begin{tcolorbox}[title=Problem 2.3]
+    $\hat{\mu}$ = \textbf{(1.4 \hspace{.2cm} 20.3 \hspace{.2cm} 5.4)}
+\end{tcolorbox}
+
+% 2.4
+% --------------------------------------------------------------------
+\subsection*{\textbf{4. (2 points)} What is the estimated variance of $X_2$?}
+
+$$\hat{\sigma}^{2}_{j} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{ij} - \hat{\mu})^{2}$$
+
+First, we must find $\hat{\mu}$ \textit{(i.e. $\hat{\mu_2}$)}.
+
+\begin{align*}
+    \hat{\mu} & = \frac{1}{7} \sum_{i=7}^{7} x_{i2} \\
+    & = \frac{1}{7}(23 + 1 + 4 + 50 + 34 + 19 + 11) \\
+    & = 20.3
+\end{align*}
+
+Now, to find the estimated variance of $X_2$.
+
+\begin{multline*}
+    \hat{\sigma}^{2}_{2} = \frac{1}{6}( 
+        (23 - 20.3)^2
+        + (1 - 20.3)^2
+        + (4 - 20.3)^2
+        + (50 - 20.3)^2
+        + (34 - 20.3)^2 \\
+        + (19 - 20.3)^2
+        + (11 - 20.3)^2
+        )
+\end{multline*}
+
+\begin{tcolorbox}[title=Problem 2.4]
+    $\hat{\sigma}^{2}_{2} = $ \textbf{300.6}
+\end{tcolorbox}
+
+% 2.5
+% --------------------------------------------------------------------
+\subsection*{\textbf{5. (2 points)} What is the covariance matrix of $D$?}
+
+\textit{The covariance matrix stores the covariance between each pair of attributes, as well as the variance for each attribute.}
+
+$$\Sigma = \left( \begin{matrix}
+\hat{\sigma}_1^2  & \hat{\sigma}_{12} & \hat{\sigma}_{13}\\
+\hat{\sigma}_{21} & \hat{\sigma}_{2}^2  & \hat{\sigma}_{23}\\
+\hat{\sigma}_{31} & \hat{\sigma}_{32} & \hat{\sigma}_{3}^2\\
+\end{matrix} \right)$$
+
+% X1: 
+    % estimated mean of X1
+        % (1/7)( 0.3 + 0.4 + 1.8 + 6.0 + -0.5 + 0.4 + 1.1 )
+        % = 1.4
+    % variance
+        % (1/6)( (0.3 - 1.4)^2 + (0.4 - 1.4)^2 + (1.8 - 1.4)^2 + (6.0 - 1.4)^2 + (-0.5 - 1.4)^2 + (0.4 - 1.4)^2 + (1.1 - 1.4)^2 )
+        % = 4.705
+% X3: 
+    % estimated mean of X1
+        % (1/7)( 5.6 + 5.2 + 5.2 + 5.1 + 5.7 + 5.4 + 5.5 )
+        % = 5.4
+    % variance
+        % (1/6)( (5.6 - 5.4)^2 + (5.2 - 5.4)^2 + (5.2 - 5.4)^2 + (5.1 - 5.4)^2 + (5.7 - 5.4)^2 + (5.4 - 5.4)^2 + (5.5 - 5.4)^2 )
+        % = 0.052
+
+% covariance (x1 and x2)
+    % (1/6)( (0.3 - 1.4)(23 - 20.3) + (0.4 - 1.4)(1 - 20.3) + (1.8 - 1.4)(4 - 20.3) + (6.0 - 1.4)(50 - 20.3) + (-0.5 - 1.4)(34 - 20.3) + (0.4 - 1.4)(19 - 20.3) + (1.1 - 1.4)(11 - 20.3) )
+    % = 20.75
+% covariance (x2 and x3)
+    % (1/6)( (23 - 20.3)(5.6 - 5.4) + (1 - 20.3)(5.2 - 5.4) + (4 - 20.3)(5.2 - 5.4) + (50 - 20.3)(5.1 - 5.4) + (34 - 20.3)(5.7 - 5.4) + (19 - 20.3)(5.4 - 5.4) + (11 - 20.3)(5.5 - 5.4) )
+    % = 0.32
+
+\begin{tcolorbox}[title=Problem 2.5]
+    $$\Sigma = \left( \begin{matrix}
+    4.7  & 20.75 & -0.35 \\
+    20.75 & 300.6  & 0.32 \\
+    -0.35 & 0.32 & 0.052 \\
+    \end{matrix} \right)$$
+\end{tcolorbox}
+
+% 2.6
+% --------------------------------------------------------------------
+\subsection*{\textbf{6. (2 points)} What is the estimated correlation between $X_1$ and $X_3$?}
+
+\begin{align*}
+    \hat{\rho}_{13} &= \frac{\hat{\sigma}_{13}}{\hat{\sigma}_1 \hat{\sigma}_3} \\
+    &= \frac{-0.35}{ \sqrt{4.7} \times \sqrt{0.052}} \\
+    &= \frac{-0.35}{0.49} \\
+    &= -0.71
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 2.6]
+    $\hat{\rho}_{13} = -0.71$
+\end{tcolorbox}
+
+% 2.7
+% --------------------------------------------------------------------
+\subsection*{\textbf{7. (2 points)} What is the total variance $D$?}
+
+\begin{align*}
+    \text{Var}(D) &= \hat{\sigma}_1^2 + \hat{\sigma}_2^2 + \dots + \hat{\sigma}_n^2 \\
+    & = 4.7 + 300.6 + 0.052 \\
+    & = 305.35
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 2.7]
+    $\text{Var}(D) = 305.35$
+\end{tcolorbox}
+
+\newpage
 \section*{Problem 3 (6 points)}
 
 Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
@@ -54,12 +232,48 @@ Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
     b &=& \begin{bmatrix} 15.0 & 2.5 &  4.0 & 4.0 \end{bmatrix}
 \end{eqnarray*}
 
-\begin{enumerate}
-    \item (2 points) What is $\|a-b\|_2$?
-    \item (2 points) What is $\|a-b\|_1$?
-    \item (2 points) What is the cosine of the angle between $a$ and $b$?
-\end{enumerate}
+% 3.1
+% --------------------------------------------------------------------
+\subsection*{\textbf{1. (2 points)} What is $\|a-b\|_2$?}
 
+\begin{align*}
+    \|a-b\|_2 &= \sqrt{ \sum_{k=1}^{m} ( x_{ik} - x_{jk} )^{2} } \\
+    & = \sqrt{ ( 2.0 - 15.0 )^{2} + ( 5.0 - 2.5 )^{2} + ( -2.6 - 4.0 )^{2} + ( 6.0 - 4.0 )^{2} } \\
+    & = \sqrt{ 222.81 } \\
+    & = 14.9268
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 3.1]
+    $\|a-b\|_2 = 14.93$
+\end{tcolorbox}
+
+
+% 3.2
+% --------------------------------------------------------------------
+\subsection*{\textbf{2. (2 points)} What is $\|a-b\|_1$?}
+
+\begin{align*}
+    \|a-b\|_1 &= \sum_{k=1}^{m}  \mid x_{ik} - x_{jk} \mid  \\
+    &= \mid 2.0 - 15.0 \mid + \mid 5.0 - 2.5 \mid + \mid -2.6 - 4.0 \mid + \mid 6.0 - 4.0 \mid \\
+    &= \mid -13 \mid + \mid 2.5 \mid + \mid -6.6 \mid + \mid 2.0 \mid \\
+    &= 13 + 2.5 + 6.6 + 2.0 \\
+    &= 24.1
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 3.2]
+    $\|a-b\|_1 = 24.1$
+\end{tcolorbox}
+
+% 3.3
+% --------------------------------------------------------------------
+\subsection*{\textbf{3. (2 points)} What is the cosine of the angle between $a$ and $b$?}
+
+\begin{align*}
+    cos(\theta) &= \frac{ x_2 \cdot x_3 }{ \| x_2 \|_2 \| x_3 \|_2 }  \\
+    &= \frac{ x_2 \cdot x_3 }{ \| x_2 \|_2 \| x_3 \|_2 }
+\end{align*}
+
+\newpage
 \section*{Problem 4 (3 points)}
 
 The following questions reference the Heart Disease data set from the UCI
