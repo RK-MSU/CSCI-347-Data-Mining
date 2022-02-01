@@ -1,0 +1,27 @@
+delete_merged_file: true # whether to delete the main Rmd file after the book is successfully rendered.
+output_dir: "build" # the output directory of the book
+clean: ["build"] # a vector of files and directories to be cleaned by the clean_book() function.
+# rmd_files: ["index.Rmd"]
+# before_chapter_script: ["scripts/load-packages.R"] # one or multiple R scripts to be executed before each chapter
+# after_chapter_script: "script3.R" # similar to before_chapter_script, and the R script is executed after each chapter.
+edit: https://github.com/RK-MSU/CSCI-347-Data-Mining/edit/notes/%s # a link that collaborators can click to edit the Rmd source document of the current page
+view: https://github.com/RK-MSU/CSCI-347-Data-Mining/blob/notes/%s # similar to edit, a link to source code of the current page.
+# history: https://github.com/rstudio... # similar to edit, a link to the edit/commit history of the current page
+language:
+  ui:
+    chapter_name: "Chapter "
+  label:
+    fig: 'Figure '
+    tab: 'Table '
+    eq: 'Equation '
+    thm: 'Theorem '
+    lem: 'Lemma '
+    cor: 'Corollary '
+    prp: 'Proposition '
+    cnj: 'Conjecture '
+    def: 'Definition '
+    exm: 'Example '
+    exr: 'Exercise '
+    proof: 'Proof. '
+    remark: 'Remark. '
+    solution: 'Solution. '

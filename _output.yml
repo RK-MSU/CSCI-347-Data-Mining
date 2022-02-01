@@ -1,0 +1,21 @@
+bookdown::gitbook:
+  css: style.css
+  number_sections: no
+  config:
+    toc:
+      collapse: section
+      toc_depth: 4
+      toc_float: yes
+      before: |
+        <li><a href="./">Data Mining</a></li>
+    toolbar:
+      position: fixed
+    fontsettings:
+      theme: night # white, night
+      family: sans # sans, serif
+      size: 2 # integer
+    edit: https://github.com/RK-MSU/CSCI-347-Data-Mining/edit/notes/%s
+    download: null
+    search: no
+    sharing: no
+    info: no

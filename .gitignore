@@ -1,3 +1,5 @@
 # Basics
 
 .DS_Store
+.Rproj.user
+/build

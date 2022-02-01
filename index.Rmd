@@ -1,0 +1,26 @@
+--- 
+title: "Data Mining"
+subtitle: "CSCI-347"
+# author: "John Doe"
+date: "Spring 2022"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  The efficient analysis of large, complex, and rapidly changing data sets is fast becoming a necessity in nearly every large industry in today's era of big data. We are in need of new algorithms that can provide sensible solutions to problems involving large, messy, incomplete, and often rapidly changing data sets. This course is a first introduction to popular techniques, algorithms, and tools available for the analysis of real-world data sets.
+link-citations: yes
+github-repo: RK-MSU/CSCI-347-Data-Mining
+---
+
+# Welcome
+
+The efficient analysis of large, complex, and rapidly changing data sets is fast becoming a necessity in nearly every large industry in today's era of big data. We are in need of new algorithms that can provide sensible solutions to problems involving large, messy, incomplete, and often rapidly changing data sets. This course is a first introduction to popular techniques, algorithms, and tools available for the analysis of real-world data sets.
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
