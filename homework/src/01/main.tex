@@ -84,8 +84,10 @@ Now, covariance between $X_1$ and $X_3$.
 $$\hat{\sigma}_{13} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i1} - \hat{\mu_1})(x_{i3} - \hat{\mu_3})$$
 
 \begin{multline*}
-    \hat{\sigma}_{13} = \frac{1}{6}( (0.3 - 1.4)(5.6 - 5.4) + (0.4 - 1.4)(5.2 - 5.4) + (1.8 - 1.4)(5.2 - 5.4) + (6.0 - 1.4)(5.1 - 5.4) \\
-    + (-0.5 - 1.4)(5.7 - 5.4) + (0.4 - 1.4)(5.4 - 5.4) + (1.1 - 1.4)(5.5 - 5.4) )
+    \hat{\sigma}_{13} = \frac{1}{6}( 
+        (0.3 - 1.4)(5.6 - 5.4) + (0.4 - 1.4)(5.2 - 5.4) + (1.8 - 1.4)(5.2 - 5.4) \\
+        + (6.0 - 1.4)(5.1 - 5.4) + (-0.5 - 1.4)(5.7 - 5.4) + (0.4 - 1.4)(5.4 - 5.4) \\
+        + (1.1 - 1.4)(5.5 - 5.4) )
 \end{multline*}
 
 \begin{tcolorbox}[title=Problem 2.2]
@@ -230,7 +232,7 @@ Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
 % https://www.wolframalpha.com/input?i2d=true&i=%5Csqrt%5C%28123%29+Power%5B%5C%2840%29+2.0+-+15.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+5.0+-+2.5+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+-2.6+-+4.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+6.0+-+4.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%5C%28125%29
 
 \begin{align*}
-    \|a-b\|_2 &= \sqrt{ \sum_{k=1}^{m} ( x_{ik} - x_{jk} )^{2} } \\
+    \|a-b\|_2 &= \sqrt{ \sum_{k=1}^{4} ( a_{k} - b_{k} )^{2} } \\
     & = \sqrt{ ( 2.0 - 15.0 )^{2} + ( 5.0 - 2.5 )^{2} + ( -2.6 - 4.0 )^{2} + ( 6.0 - 4.0 )^{2} } \\
     & = \sqrt{ 222.81 } \\
     & = 14.9268
@@ -270,18 +272,18 @@ Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
     &= \frac{ 
             \begin{bmatrix} 2.0  & 5.0 & -2.6 & 6.0 \end{bmatrix} \cdot \begin{bmatrix} 15.0 & 2.5 &  4.0 & 4.0 \end{bmatrix}
         }{
-            \sqrt{ (2.0^2 + 5.0^2 + -2.6^2 6.0^2) } \sqrt{ (15.0^2 + 2.5^2 + 4.0^2 4.0^2) }
+            \sqrt{ ((2.0)^2 + (5.0)^2 + (-2.6)^2 + (6.0)^2) } \sqrt{ ((15.0)^2 + (2.5)^2 + (4.0)^2 + (4.0)^2) }
         } \\
     &=  \frac{ 
             (2.0)(15.0) + (5.0)(2.5) + (-2.6)(4.0) + (6.0)(4.0)
         }{
-            \sqrt{ -214.36 } \sqrt{ 487.25 }
+            \sqrt{ 71.76 } \sqrt{ 263.25 }
         } \\
-    &= -0.173586 i
+    &= 0.408167
 \end{align*}
 
 \begin{tcolorbox}[title=Problem 3.2]
-    $cos(\theta) = -0.173586 i$
+    $cos(\theta) = 0.41$
 \end{tcolorbox}
 
 \newpage
@@ -295,7 +297,7 @@ Machine Learning Repository: \url{https://archive.ics.uci.edu/ml/datasets/Heart+
 \subsection*{\textbf{1. (1 point)} One attribute is named ``cigs''.  What information is stored in the ``cigs'' attribute?}
 
 \begin{tcolorbox}[title=Problem 4.1]
-    The ``cigs'' attribute stores information about the number cigarettes per day.
+    The ``cigs'' attribute stores information about the number of \textbf{cigarettes per day}.
 \end{tcolorbox}
 
 % 4.2
