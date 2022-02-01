@@ -57,7 +57,7 @@ $$
 \begin{align*}
     \hat{\mu_3} &= \frac{1}{7} \sum_{i=7}^{7} x_{i3}\\
     &= \frac{1}{7}(5.6 + 5.2 + 5.2 + 5.1 + 5.7 + 5.4 + 5.5)\\
-    &= 5.4
+    &= 5.3857...
 \end{align*}
 
 \begin{tcolorbox}[title=Problem 2.1]
@@ -74,7 +74,7 @@ First, we find $\hat{\mu_1}$ and $\hat{\mu_3}$.
 \begin{align*}
     \hat{\mu_1} & = \frac{1}{7} \sum_{i=7}^{7} x_{i1} \\
     & = \frac{1}{7}(0.3 + 0.4 + 1.8 + 6.0 + -0.5 + 0.4 + 1.1) \\
-    & = 1.4
+    & = 1.3571
 \end{align*}
 
 $\hat{\mu_1} = 1.4$ and $\hat{\mu_3} = 5.4$ \textit{($\hat{\mu_3}$ from above)} \\
@@ -84,14 +84,8 @@ Now, covariance between $X_1$ and $X_3$.
 $$\hat{\sigma}_{13} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i1} - \hat{\mu_1})(x_{i3} - \hat{\mu_3})$$
 
 \begin{multline*}
-    \hat{\sigma}_{13} = \frac{1}{6}( 
-        (0.3 - 1.4)(5.6 - 5.4)
-        + (0.4 - 1.4)(5.2 - 5.4)
-        + (1.8 - 1.4)(5.2 - 5.4) \\
-        + (6.0 - 1.4)(5.1 - 5.4)
-        + (-0.5 - 1.4)(5.7 - 5.4)
-        + (0.4 - 1.4)(5.4 - 5.4) \\
-        + (1.1 - 1.4)(5.5 - 5.4) )
+    \hat{\sigma}_{13} = \frac{1}{6}( (0.3 - 1.4)(5.6 - 5.4) + (0.4 - 1.4)(5.2 - 5.4) + (1.8 - 1.4)(5.2 - 5.4) + (6.0 - 1.4)(5.1 - 5.4) \\
+    + (-0.5 - 1.4)(5.7 - 5.4) + (0.4 - 1.4)(5.4 - 5.4) + (1.1 - 1.4)(5.5 - 5.4) )
 \end{multline*}
 
 \begin{tcolorbox}[title=Problem 2.2]
@@ -104,13 +98,15 @@ $$\hat{\sigma}_{13} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i1} - \hat{\mu_1})(x_{i3} 
 
 $$\hat{\mu} = \frac{1}{n} \sum_{i=1}^{n} x_{i}$$
 
+% https://www.wolframalpha.com/input?i2d=true&i=%5C%2840%29Divide%5B1%2C7%5D%5C%2841%29%5C%2840%29%7B0.3%2C23%2C5.6%7D+%2B+%7B0.4%2C1%2C5.2%7D+%2B+%7B1.8%2C4%2C5.2%7D+%2B+%7B6.0%2C50%2C5.1%7D+%2B+%7B-0.5%2C34%2C5.7%7D+%2B+%7B0.4%2C19%2C5.4%7D+%2B+%7B1.1%2C11%2C5.5%7D%5C%2841%29
+
 \begin{multline*}
     \hat{\mu} = \frac{1}{7} ( 
         (0.3 \hspace{.3cm} 23 \hspace{.3cm} 5.6)
         + (0.4 \hspace{.3cm} 1 \hspace{.3cm} 5.2)
         + (1.8 \hspace{.3cm} 4 \hspace{.3cm} 5.2)
-        + (6.0 \hspace{.3cm} 50 \hspace{.3cm} 5.1) \\
-        + (-0.5 \hspace{.3cm} 34 \hspace{.3cm} 5.7)
+        + (6.0 \hspace{.3cm} 50 \hspace{.3cm} 5.1)
+        + (-0.5 \hspace{.3cm} 34 \hspace{.3cm} 5.7) \\
         + (0.4 \hspace{.3cm} 19 \hspace{.3cm} 5.4)
         + (1.1 \hspace{.3cm} 11 \hspace{.3cm} 5.5) )
 \end{multline*}
@@ -134,18 +130,11 @@ First, we must find $\hat{\mu}$ \textit{(i.e. $\hat{\mu_2}$)}.
 \end{align*}
 
 Now, to find the estimated variance of $X_2$.
-
-\begin{multline*}
-    \hat{\sigma}^{2}_{2} = \frac{1}{6}( 
-        (23 - 20.3)^2
-        + (1 - 20.3)^2
-        + (4 - 20.3)^2
-        + (50 - 20.3)^2
-        + (34 - 20.3)^2 \\
-        + (19 - 20.3)^2
-        + (11 - 20.3)^2
-        )
-\end{multline*}
+% https://www.wolframalpha.com/input?i2d=true&i=%5Cfrac%5C%28123%291%5C%28125%29%5C%28123%296%5C%28125%29%5C%2840%29+Power%5B%5C%2840%2923+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%291+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%294+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2950+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2934+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2919+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2911+-+20.3%5C%2841%29%2C2%5D%5C%2841%29
+\begin{align*}
+    \hat{\sigma}^{2}_{2} &= \frac{1}{6}( (23 - 20.3)^2 + (1 - 20.3)^2 + (4 - 20.3)^2 + (50 - 20.3)^2 + (34 - 20.3)^2 + (19 - 20.3)^2 + (11 - 20.3)^2) \\
+    &= 300.571667
+\end{align*}
 
 \begin{tcolorbox}[title=Problem 2.4]
     $\hat{\sigma}^{2}_{2} = $ \textbf{300.6}
@@ -197,11 +186,13 @@ $$\Sigma = \left( \begin{matrix}
 % --------------------------------------------------------------------
 \subsection*{\textbf{6. (2 points)} What is the estimated correlation between $X_1$ and $X_3$?}
 
+% https://www.wolframalpha.com/input?i2d=true&i=%5Cfrac%5C%28123%29-0.35%5C%28125%29%5C%28123%29+%5Csqrt%5C%28123%294.7%5C%28125%29+*+%5Csqrt%5C%28123%290.052%5C%28125%29%5C%28125%29
+
 \begin{align*}
     \hat{\rho}_{13} &= \frac{\hat{\sigma}_{13}}{\hat{\sigma}_1 \hat{\sigma}_3} \\
     &= \frac{-0.35}{ \sqrt{4.7} \times \sqrt{0.052}} \\
     &= \frac{-0.35}{0.49} \\
-    &= -0.71
+    &= -0.70797
 \end{align*}
 
 \begin{tcolorbox}[title=Problem 2.6]
@@ -236,6 +227,8 @@ Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
 % --------------------------------------------------------------------
 \subsection*{\textbf{1. (2 points)} What is $\|a-b\|_2$?}
 
+% https://www.wolframalpha.com/input?i2d=true&i=%5Csqrt%5C%28123%29+Power%5B%5C%2840%29+2.0+-+15.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+5.0+-+2.5+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+-2.6+-+4.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+6.0+-+4.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%5C%28125%29
+
 \begin{align*}
     \|a-b\|_2 &= \sqrt{ \sum_{k=1}^{m} ( x_{ik} - x_{jk} )^{2} } \\
     & = \sqrt{ ( 2.0 - 15.0 )^{2} + ( 5.0 - 2.5 )^{2} + ( -2.6 - 4.0 )^{2} + ( 6.0 - 4.0 )^{2} } \\
@@ -252,6 +245,8 @@ Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
 % --------------------------------------------------------------------
 \subsection*{\textbf{2. (2 points)} What is $\|a-b\|_1$?}
 
+% https://www.wolframalpha.com/input?i2d=true&i=%7C+2.0+%E2%88%92+15.0+%7C+%2B+%7C+5.0+%E2%88%92+2.5+%7C+%2B+%7C+%E2%88%922.6+%E2%88%92+4.0+%7C+%2B+%7C+6.0+%E2%88%92+4.0+%7C
+
 \begin{align*}
     \|a-b\|_1 &= \sum_{k=1}^{m}  \mid x_{ik} - x_{jk} \mid  \\
     &= \mid 2.0 - 15.0 \mid + \mid 5.0 - 2.5 \mid + \mid -2.6 - 4.0 \mid + \mid 6.0 - 4.0 \mid \\
@@ -264,31 +259,62 @@ Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
     $\|a-b\|_1 = 24.1$
 \end{tcolorbox}
 
+\newpage
 % 3.3
 % --------------------------------------------------------------------
 \subsection*{\textbf{3. (2 points)} What is the cosine of the angle between $a$ and $b$?}
 
 \begin{align*}
-    cos(\theta) &= \frac{ x_2 \cdot x_3 }{ \| x_2 \|_2 \| x_3 \|_2 }  \\
-    &= \frac{ x_2 \cdot x_3 }{ \| x_2 \|_2 \| x_3 \|_2 }
+    cos(\theta) &= \frac{ a \cdot b }{ \| a \|_2 \| b \|_2 }  \\
+    % \frac{ \begin{bmatrix} 2.0  & 5.0 & -2.6 & 6.0 \end{bmatrix} \cdot \begin{bmatrix} 15.0 & 2.5 &  4.0 & 4.0 \end{bmatrix} }{ \sqrt{ (2.0^2 + 5.0^2 + -2.6^2 6.0^2) } \sqrt{ (15.0^2 + 2.5^2 + 4.0^2 4.0^2) } }
+    &= \frac{ 
+            \begin{bmatrix} 2.0  & 5.0 & -2.6 & 6.0 \end{bmatrix} \cdot \begin{bmatrix} 15.0 & 2.5 &  4.0 & 4.0 \end{bmatrix}
+        }{
+            \sqrt{ (2.0^2 + 5.0^2 + -2.6^2 6.0^2) } \sqrt{ (15.0^2 + 2.5^2 + 4.0^2 4.0^2) }
+        } \\
+    &=  \frac{ 
+            (2.0)(15.0) + (5.0)(2.5) + (-2.6)(4.0) + (6.0)(4.0)
+        }{
+            \sqrt{ -214.36 } \sqrt{ 487.25 }
+        } \\
+    &= -0.173586 i
 \end{align*}
+
+\begin{tcolorbox}[title=Problem 3.2]
+    $cos(\theta) = -0.173586 i$
+\end{tcolorbox}
 
 \newpage
 \section*{Problem 4 (3 points)}
 
 The following questions reference the Heart Disease data set from the UCI
-Machine Learning Repository:
+Machine Learning Repository: \url{https://archive.ics.uci.edu/ml/datasets/Heart+Disease}
 
-\url{https://archive.ics.uci.edu/ml/datasets/Heart+Disease}
+% 4.1
+% --------------------------------------------------------------------
+\subsection*{\textbf{1. (1 point)} One attribute is named ``cigs''.  What information is stored in the ``cigs'' attribute?}
 
-\begin{enumerate}
-    \item (1 point) One attribute is named ``cigs''.  What information is stored
-    in the ``cigs'' attribute?
-    \item (1 point) How man rows (i.e., observations, entities, instances) are
-    there in the data set?
-    \item (1 point) How man attributes are there in the data set?
-\end{enumerate}
+\begin{tcolorbox}[title=Problem 4.1]
+    The ``cigs'' attribute stores information about the number cigarettes per day.
+\end{tcolorbox}
 
+% 4.2
+% --------------------------------------------------------------------
+\subsection*{\textbf{2. (1 point)} How man rows (i.e., observations, entities, instances) are there in the data set?}
+
+\begin{tcolorbox}[title=Problem 4.2]
+    Number of Instances: \textbf{303} 
+\end{tcolorbox}
+
+% 4.3
+% --------------------------------------------------------------------
+\subsection*{\textbf{3. (1 point)} How man attributes are there in the data set?}
+
+\begin{tcolorbox}[title=Problem 4.3]
+    Number of Attributes: \textbf{75} 
+\end{tcolorbox}
+
+\newpage
 \section*{Tips and Acknowledgements}
 
 Make sure to submit your answer as a PDF on Gradscope and Brightspace. Make sure
