@@ -1,0 +1,331 @@
+\documentclass[11pt]{article}
+
+% set these commands
+\newcommand{\course}{CSCI 347}
+\newcommand{\proj}{Homework 01}
+
+\usepackage{macros}
+
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+
+\titleformat{\subsection}
+    {\large} % format
+    {} % label
+    {1em} % spacing
+    {} % before code
+    {} % after code
+
+
+\begin{document}
+
+{ ~\\
+    River Kelly \\
+    \course \\
+    \proj \\
+    Feb 3, 2022 \\
+}
+
+\section*{Problem 1 (2 points)}
+
+What are the two main types of attributes typically found in data?
+\begin{tcolorbox}[width=\linewidth,title=Problem 1]
+The two main types of attributes typically found in data are: \textbf{Qualitative and Quantitative}.
+\end{tcolorbox}
+
+\section*{Problem 2 (14 points)}
+
+Consider the following data matrix
+
+$$
+    D = \begin{matrix}
+            & X_1   & X_2   & X_3 \\
+        x_1 &  0.3  & 23    & 5.6 \\
+        x_2 &  0.4  &  1    & 5.2 \\
+        x_3 &  1.8  &  4    & 5.2 \\
+        x_4 &  6.0  & 50    & 5.1 \\
+        x_5 & -0.5  & 34    & 5.7 \\
+        x_6 &  0.4  & 19    & 5.4 \\
+        x_7 &  1.1  & 11    & 5.5 \\
+    \end{matrix}
+$$
+
+% 2.1
+% --------------------------------------------------------------------
+\subsection*{\textbf{1. (2 points)} What is the estimated mean of $X_3$?}
+
+\begin{align*}
+    \hat{\mu_3} &= \frac{1}{7} \sum_{i=7}^{7} x_{i3}\\
+    &= \frac{1}{7}(5.6 + 5.2 + 5.2 + 5.1 + 5.7 + 5.4 + 5.5)\\
+    &= 5.3857...
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 2.1]
+    $\hat{\mu_3} = $ \textbf{5.4}
+\end{tcolorbox}
+
+% 2.2
+% --------------------------------------------------------------------
+\newpage
+\subsection*{\textbf{2. (2 points)} What is the estimated covariance between $X_1$ and $X_3$?}
+
+First, we find $\hat{\mu_1}$ and $\hat{\mu_3}$.
+
+\begin{align*}
+    \hat{\mu_1} & = \frac{1}{7} \sum_{i=7}^{7} x_{i1} \\
+    & = \frac{1}{7}(0.3 + 0.4 + 1.8 + 6.0 + -0.5 + 0.4 + 1.1) \\
+    & = 1.3571
+\end{align*}
+
+$\hat{\mu_1} = 1.4$ and $\hat{\mu_3} = 5.4$ \textit{($\hat{\mu_3}$ from above)} \\
+
+Now, covariance between $X_1$ and $X_3$.
+
+$$\hat{\sigma}_{13} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{i1} - \hat{\mu_1})(x_{i3} - \hat{\mu_3})$$
+
+\begin{multline*}
+    \hat{\sigma}_{13} = \frac{1}{6}( 
+        (0.3 - 1.4)(5.6 - 5.4) + (0.4 - 1.4)(5.2 - 5.4) + (1.8 - 1.4)(5.2 - 5.4) \\
+        + (6.0 - 1.4)(5.1 - 5.4) + (-0.5 - 1.4)(5.7 - 5.4) + (0.4 - 1.4)(5.4 - 5.4) \\
+        + (1.1 - 1.4)(5.5 - 5.4) )
+\end{multline*}
+
+\begin{tcolorbox}[title=Problem 2.2]
+    $\hat{\sigma}_{13} = $ \textbf{-0.35}
+\end{tcolorbox}
+
+% 2.3
+% --------------------------------------------------------------------
+\subsection*{\textbf{3. (2 points)} What is the estimated multi-dimensional mean of $D$?}
+
+$$\hat{\mu} = \frac{1}{n} \sum_{i=1}^{n} x_{i}$$
+
+% https://www.wolframalpha.com/input?i2d=true&i=%5C%2840%29Divide%5B1%2C7%5D%5C%2841%29%5C%2840%29%7B0.3%2C23%2C5.6%7D+%2B+%7B0.4%2C1%2C5.2%7D+%2B+%7B1.8%2C4%2C5.2%7D+%2B+%7B6.0%2C50%2C5.1%7D+%2B+%7B-0.5%2C34%2C5.7%7D+%2B+%7B0.4%2C19%2C5.4%7D+%2B+%7B1.1%2C11%2C5.5%7D%5C%2841%29
+
+\begin{multline*}
+    \hat{\mu} = \frac{1}{7} ( 
+        (0.3 \hspace{.3cm} 23 \hspace{.3cm} 5.6)
+        + (0.4 \hspace{.3cm} 1 \hspace{.3cm} 5.2)
+        + (1.8 \hspace{.3cm} 4 \hspace{.3cm} 5.2)
+        + (6.0 \hspace{.3cm} 50 \hspace{.3cm} 5.1)
+        + (-0.5 \hspace{.3cm} 34 \hspace{.3cm} 5.7) \\
+        + (0.4 \hspace{.3cm} 19 \hspace{.3cm} 5.4)
+        + (1.1 \hspace{.3cm} 11 \hspace{.3cm} 5.5) )
+\end{multline*}
+
+\begin{tcolorbox}[title=Problem 2.3]
+    $\hat{\mu}$ = \textbf{(1.4 \hspace{.2cm} 20.3 \hspace{.2cm} 5.4)}
+\end{tcolorbox}
+
+% 2.4
+% --------------------------------------------------------------------
+\subsection*{\textbf{4. (2 points)} What is the estimated variance of $X_2$?}
+
+$$\hat{\sigma}^{2}_{j} = \frac{1}{n-1}\sum_{i=1}^{n} (x_{ij} - \hat{\mu})^{2}$$
+
+First, we must find $\hat{\mu}$ \textit{(i.e. $\hat{\mu_2}$)}.
+
+\begin{align*}
+    \hat{\mu} & = \frac{1}{7} \sum_{i=7}^{7} x_{i2} \\
+    & = \frac{1}{7}(23 + 1 + 4 + 50 + 34 + 19 + 11) \\
+    & = 20.3
+\end{align*}
+
+Now, to find the estimated variance of $X_2$.
+% https://www.wolframalpha.com/input?i2d=true&i=%5Cfrac%5C%28123%291%5C%28125%29%5C%28123%296%5C%28125%29%5C%2840%29+Power%5B%5C%2840%2923+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%291+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%294+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2950+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2934+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2919+-+20.3%5C%2841%29%2C2%5D+%2B+Power%5B%5C%2840%2911+-+20.3%5C%2841%29%2C2%5D%5C%2841%29
+\begin{align*}
+    \hat{\sigma}^{2}_{2} &= \frac{1}{6}( (23 - 20.3)^2 + (1 - 20.3)^2 + (4 - 20.3)^2 + (50 - 20.3)^2 + (34 - 20.3)^2 + (19 - 20.3)^2 + (11 - 20.3)^2) \\
+    &= 300.571667
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 2.4]
+    $\hat{\sigma}^{2}_{2} = $ \textbf{300.6}
+\end{tcolorbox}
+
+% 2.5
+% --------------------------------------------------------------------
+\subsection*{\textbf{5. (2 points)} What is the covariance matrix of $D$?}
+
+\textit{The covariance matrix stores the covariance between each pair of attributes, as well as the variance for each attribute.}
+
+$$\Sigma = \left( \begin{matrix}
+\hat{\sigma}_1^2  & \hat{\sigma}_{12} & \hat{\sigma}_{13}\\
+\hat{\sigma}_{21} & \hat{\sigma}_{2}^2  & \hat{\sigma}_{23}\\
+\hat{\sigma}_{31} & \hat{\sigma}_{32} & \hat{\sigma}_{3}^2\\
+\end{matrix} \right)$$
+
+% X1: 
+    % estimated mean of X1
+        % (1/7)( 0.3 + 0.4 + 1.8 + 6.0 + -0.5 + 0.4 + 1.1 )
+        % = 1.4
+    % variance
+        % (1/6)( (0.3 - 1.4)^2 + (0.4 - 1.4)^2 + (1.8 - 1.4)^2 + (6.0 - 1.4)^2 + (-0.5 - 1.4)^2 + (0.4 - 1.4)^2 + (1.1 - 1.4)^2 )
+        % = 4.705
+% X3: 
+    % estimated mean of X1
+        % (1/7)( 5.6 + 5.2 + 5.2 + 5.1 + 5.7 + 5.4 + 5.5 )
+        % = 5.4
+    % variance
+        % (1/6)( (5.6 - 5.4)^2 + (5.2 - 5.4)^2 + (5.2 - 5.4)^2 + (5.1 - 5.4)^2 + (5.7 - 5.4)^2 + (5.4 - 5.4)^2 + (5.5 - 5.4)^2 )
+        % = 0.052
+
+% covariance (x1 and x2)
+    % (1/6)( (0.3 - 1.4)(23 - 20.3) + (0.4 - 1.4)(1 - 20.3) + (1.8 - 1.4)(4 - 20.3) + (6.0 - 1.4)(50 - 20.3) + (-0.5 - 1.4)(34 - 20.3) + (0.4 - 1.4)(19 - 20.3) + (1.1 - 1.4)(11 - 20.3) )
+    % = 20.75
+% covariance (x2 and x3)
+    % (1/6)( (23 - 20.3)(5.6 - 5.4) + (1 - 20.3)(5.2 - 5.4) + (4 - 20.3)(5.2 - 5.4) + (50 - 20.3)(5.1 - 5.4) + (34 - 20.3)(5.7 - 5.4) + (19 - 20.3)(5.4 - 5.4) + (11 - 20.3)(5.5 - 5.4) )
+    % = 0.32
+
+\begin{tcolorbox}[title=Problem 2.5]
+    $$\Sigma = \left( \begin{matrix}
+    4.7  & 20.75 & -0.35 \\
+    20.75 & 300.6  & 0.32 \\
+    -0.35 & 0.32 & 0.052 \\
+    \end{matrix} \right)$$
+\end{tcolorbox}
+
+% 2.6
+% --------------------------------------------------------------------
+\subsection*{\textbf{6. (2 points)} What is the estimated correlation between $X_1$ and $X_3$?}
+
+% https://www.wolframalpha.com/input?i2d=true&i=%5Cfrac%5C%28123%29-0.35%5C%28125%29%5C%28123%29+%5Csqrt%5C%28123%294.7%5C%28125%29+*+%5Csqrt%5C%28123%290.052%5C%28125%29%5C%28125%29
+
+\begin{align*}
+    \hat{\rho}_{13} &= \frac{\hat{\sigma}_{13}}{\hat{\sigma}_1 \hat{\sigma}_3} \\
+    &= \frac{-0.35}{ \sqrt{4.7} \times \sqrt{0.052}} \\
+    &= \frac{-0.35}{0.49} \\
+    &= -0.70797
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 2.6]
+    $\hat{\rho}_{13} = -0.71$
+\end{tcolorbox}
+
+% 2.7
+% --------------------------------------------------------------------
+\subsection*{\textbf{7. (2 points)} What is the total variance $D$?}
+
+\begin{align*}
+    \text{Var}(D) &= \hat{\sigma}_1^2 + \hat{\sigma}_2^2 + \dots + \hat{\sigma}_n^2 \\
+    & = 4.7 + 300.6 + 0.052 \\
+    & = 305.35
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 2.7]
+    $\text{Var}(D) = 305.35$
+\end{tcolorbox}
+
+\newpage
+\section*{Problem 3 (6 points)}
+
+Given $a, b \in \R^4$ (that is a fancy way of saying that $a$ and $b$ are
+4-dimensional vectors with real values) where
+\begin{eqnarray*}
+    a &=& \begin{bmatrix} 2.0  & 5.0 & -2.6 & 6.0 \end{bmatrix} \\
+    b &=& \begin{bmatrix} 15.0 & 2.5 &  4.0 & 4.0 \end{bmatrix}
+\end{eqnarray*}
+
+% 3.1
+% --------------------------------------------------------------------
+\subsection*{\textbf{1. (2 points)} What is $\|a-b\|_2$?}
+
+% https://www.wolframalpha.com/input?i2d=true&i=%5Csqrt%5C%28123%29+Power%5B%5C%2840%29+2.0+-+15.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+5.0+-+2.5+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+-2.6+-+4.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%2B+Power%5B%5C%2840%29+6.0+-+4.0+%5C%2841%29%2C%5C%28123%292%5C%28125%29%5D+%5C%28125%29
+
+\begin{align*}
+    \|a-b\|_2 &= \sqrt{ \sum_{k=1}^{4} ( a_{k} - b_{k} )^{2} } \\
+    & = \sqrt{ ( 2.0 - 15.0 )^{2} + ( 5.0 - 2.5 )^{2} + ( -2.6 - 4.0 )^{2} + ( 6.0 - 4.0 )^{2} } \\
+    & = \sqrt{ 222.81 } \\
+    & = 14.9268
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 3.1]
+    $\|a-b\|_2 = 14.93$
+\end{tcolorbox}
+
+
+% 3.2
+% --------------------------------------------------------------------
+\subsection*{\textbf{2. (2 points)} What is $\|a-b\|_1$?}
+
+% https://www.wolframalpha.com/input?i2d=true&i=%7C+2.0+%E2%88%92+15.0+%7C+%2B+%7C+5.0+%E2%88%92+2.5+%7C+%2B+%7C+%E2%88%922.6+%E2%88%92+4.0+%7C+%2B+%7C+6.0+%E2%88%92+4.0+%7C
+
+\begin{align*}
+    \|a-b\|_1 &= \sum_{k=1}^{m}  \mid x_{ik} - x_{jk} \mid  \\
+    &= \mid 2.0 - 15.0 \mid + \mid 5.0 - 2.5 \mid + \mid -2.6 - 4.0 \mid + \mid 6.0 - 4.0 \mid \\
+    &= \mid -13 \mid + \mid 2.5 \mid + \mid -6.6 \mid + \mid 2.0 \mid \\
+    &= 13 + 2.5 + 6.6 + 2.0 \\
+    &= 24.1
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 3.2]
+    $\|a-b\|_1 = 24.1$
+\end{tcolorbox}
+
+\newpage
+% 3.3
+% --------------------------------------------------------------------
+\subsection*{\textbf{3. (2 points)} What is the cosine of the angle between $a$ and $b$?}
+
+\begin{align*}
+    cos(\theta) &= \frac{ a \cdot b }{ \| a \|_2 \| b \|_2 }  \\
+    % \frac{ \begin{bmatrix} 2.0  & 5.0 & -2.6 & 6.0 \end{bmatrix} \cdot \begin{bmatrix} 15.0 & 2.5 &  4.0 & 4.0 \end{bmatrix} }{ \sqrt{ (2.0^2 + 5.0^2 + -2.6^2 6.0^2) } \sqrt{ (15.0^2 + 2.5^2 + 4.0^2 4.0^2) } }
+    &= \frac{ 
+            \begin{bmatrix} 2.0  & 5.0 & -2.6 & 6.0 \end{bmatrix} \cdot \begin{bmatrix} 15.0 & 2.5 &  4.0 & 4.0 \end{bmatrix}
+        }{
+            \sqrt{ ((2.0)^2 + (5.0)^2 + (-2.6)^2 + (6.0)^2) } \sqrt{ ((15.0)^2 + (2.5)^2 + (4.0)^2 + (4.0)^2) }
+        } \\
+    &=  \frac{ 
+            (2.0)(15.0) + (5.0)(2.5) + (-2.6)(4.0) + (6.0)(4.0)
+        }{
+            \sqrt{ 71.76 } \sqrt{ 263.25 }
+        } \\
+    &= 0.408167
+\end{align*}
+
+\begin{tcolorbox}[title=Problem 3.2]
+    $cos(\theta) = 0.41$
+\end{tcolorbox}
+
+\newpage
+\section*{Problem 4 (3 points)}
+
+The following questions reference the Heart Disease data set from the UCI
+Machine Learning Repository: \url{https://archive.ics.uci.edu/ml/datasets/Heart+Disease}
+
+% 4.1
+% --------------------------------------------------------------------
+\subsection*{\textbf{1. (1 point)} One attribute is named ``cigs''.  What information is stored in the ``cigs'' attribute?}
+
+\begin{tcolorbox}[title=Problem 4.1]
+    The ``cigs'' attribute stores information about the number of \textbf{cigarettes per day}.
+\end{tcolorbox}
+
+% 4.2
+% --------------------------------------------------------------------
+\subsection*{\textbf{2. (1 point)} How man rows (i.e., observations, entities, instances) are there in the data set?}
+
+\begin{tcolorbox}[title=Problem 4.2]
+    Number of Instances: \textbf{303} 
+\end{tcolorbox}
+
+% 4.3
+% --------------------------------------------------------------------
+\subsection*{\textbf{3. (1 point)} How man attributes are there in the data set?}
+
+\begin{tcolorbox}[title=Problem 4.3]
+    Number of Attributes: \textbf{75} 
+\end{tcolorbox}
+
+\newpage
+\section*{Tips and Acknowledgements}
+
+Make sure to submit your answer as a PDF on Gradscope and Brightspace. Make sure
+to show your work. Include any code snippets you used to generate an answer,
+using comments in the code to clearly indicate which problem corresponds to
+which code.
+
+
+{\bf Acknowledgements:} Homework problems adapted from assignments of
+Veronika Strnadova-Neeley.
+
+\end{document}
