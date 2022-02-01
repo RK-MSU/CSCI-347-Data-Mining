@@ -1,0 +1,36 @@
+# Math (Stats Review)
+
+## Common Data Formats
+
+Data can often be represented by a _data matrix_ D
+
+$$D = \begin{matrix}
+ & X_1 & X_2 & X_3 & X_4 \\
+x_1 & 0.2 & 23 & A & 5.7 \\
+x_2 & 0.4 & 1 & B & 5.4 \\
+x_3 & 1.8 & 0.5 & C & 5.2 \\
+x_4 & 5.6 & 50 & A & 5.1 \\
+x_5 & -0.5 & 34 & A & 5.3 \\
+x_6 & 0.4 & 19 & B & 5.4 \\
+x_7 & 1.1 & 11 & A & 5.5 \\
+\end{matrix}$$
+
+## Mean
+
+Estimated mean (sample mean) of attribute $\hat{\mu}_j = \frac{1}{n} \sum_{i=1}^{n} x_{ij}$
+
+## Variance
+
+Estimated variance of $X_j$: $\hat{ \sigma }_{j}^{2} = \frac{1}{n-1} \sum_{i=1}^{n} ( x_{ij} - \hat{\mu})^{2}$
+
+## Standard deviation
+
+Estimated standard deviation of $X_j$: $\hat{ \sigma }_j = \sqrt{ \hat{ \sigma }_j^2 }$ _(square root of the estimated variance)_
+
+## Multi-dimensional mean
+
+$\hat{ \mu } = \frac{1}{n} \sum_{i=1}^{n} x_i$
+
+## Covariance
+
+$\hat{ \sigma }_{1}^{2} = \frac{1}{n-1} \sum_{i=1}^{n} (x_{i1} - \hat{\mu}_1)(x_{i2} - \hat{\mu}_2)$
