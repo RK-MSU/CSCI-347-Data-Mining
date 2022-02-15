@@ -170,3 +170,22 @@ print("Estimated variance of the first column of Y: {!s}".format(coVariance(oneH
 
 # We can double check this by:
 print('Double check with np built in function: {!s}'.format(np.var(oneHotData[:,0], ddof=1)))
+
+# Question 9 - z-score
+# --------------------------------------------------------------------
+
+def zScore(m):
+    z_score = np.ndarray(m.shape)
+    for row in range(z_score.shape[0]):
+        for col in range(z_score.shape[1]):
+            z_score[row, col] = 0
+
+            x_ij = m[row, col]
+            mean = m[:,col].mean()
+            div = math.sqrt(coVariance(m, col, col))
+
+            z_score[row, col] = (x_ij - mean) / div
+
+    return z_score
+
+print('\n',zScore(oneHotData))
