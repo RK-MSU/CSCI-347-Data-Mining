@@ -188,4 +188,9 @@ def zScore(m):
 
     return z_score
 
-print('\n',zScore(oneHotData))
+z_data = zScore(oneHotData)
+print('Z-Score: \n', z_data, '\n')
+
+# Question 10
+# --------------------------------------------------------------------
+print('Multi Dimensional Mean of Z: \n', multiDimensionalMean(z_data))
