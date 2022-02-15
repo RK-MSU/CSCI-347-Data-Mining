@@ -60,13 +60,13 @@ data[6] = np.array(['blue',   'no',   'west'])
 oneHotData = np.ndarray((7, 9))
 
 for row in range(data.shape[0]):
-    row_array = data[row,:]
+    row_array       = data[row,:]
+    
+    hot_data_row    = np.array([0] * 9)
 
-    hot_data_row = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
-
-    color = row_array[0]
-    yes_no = row_array[1]
-    direction = row_array[2]
+    color           = row_array[0]
+    yes_no          = row_array[1]
+    direction       = row_array[2]
     
     if color == b'red': hot_data_row[0] = 1
     elif color == b'blue': hot_data_row[1] = 1
@@ -75,7 +75,7 @@ for row in range(data.shape[0]):
     if yes_no == b'yes': hot_data_row[3] = 1
     else: hot_data_row[4] = 1
 
-    if direction == b'north': hot_data_row[5] = 1
+    if   direction == b'north': hot_data_row[5] = 1
     elif direction == b'south': hot_data_row[6] = 1
     elif direction == b'east': hot_data_row[7] = 1
     elif direction == b'west': hot_data_row[8] = 1
