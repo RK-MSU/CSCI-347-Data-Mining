@@ -143,3 +143,30 @@ def jaccardSimilarity(m, row1Num, row2Num):
     return (top / bottom)
 print("Jaccard similarity of x2 and x7: ", jaccardSimilarity(oneHotData, 1, 6))
 
+# Question 7 - Multi-Dimensional Mean
+# --------------------------------------------------------------------
+
+def multiDimensionalMean(m):
+    mean_data = [0] * m.shape[1]
+    for row in range(m.shape[0]):
+        for col in range(m.shape[1]):
+            mean_data[col] += m[row, col]
+    for col in range(len(mean_data)):
+        mean_data[col] = mean_data[col] / m.shape[0]
+    return mean_data
+print("Multi-Dimensional Mean of Y: {!s}".format(multiDimensionalMean(oneHotData)))
+
+# Question 8 - Variance
+# --------------------------------------------------------------------
+
+def coVariance(m, col1Num, col2Num):
+    col1 = m[:,col1Num]
+    col2 = m[:,col2Num]
+    answer = 0
+    for i in range(m.shape[0]):
+        answer += (col1[i] - col1.mean()) * (col2[i] - col2.mean())
+    return answer / (m.shape[0] - 1)
+print("Estimated variance of the first column of Y: {!s}".format(coVariance(oneHotData, 0, 0)))
+
+# We can double check this by:
+print('Double check with np built in function: {!s}'.format(np.var(oneHotData[:,0], ddof=1)))
