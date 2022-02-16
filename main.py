@@ -141,6 +141,7 @@ def jaccardSimilarity(m, row1Num, row2Num):
         # bottom
         if (x1[i] != x2[i]): bottom += 1
     return (top / bottom)
+
 print("Jaccard similarity of x2 and x7: ", jaccardSimilarity(oneHotData, 1, 6))
 
 # Question 7 - Multi-Dimensional Mean
@@ -152,8 +153,9 @@ def multiDimensionalMean(m):
         for col in range(m.shape[1]):
             mean_data[col] += m[row, col]
     for col in range(len(mean_data)):
-        mean_data[col] = mean_data[col] / m.shape[0]
+        mean_data[col] = (mean_data[col] / m.shape[0])
     return mean_data
+
 print("Multi-Dimensional Mean of Y: {!s}".format(multiDimensionalMean(oneHotData)))
 
 # Question 8 - Variance
@@ -166,6 +168,7 @@ def coVariance(m, col1Num, col2Num):
     for i in range(m.shape[0]):
         answer += (col1[i] - col1.mean()) * (col2[i] - col2.mean())
     return answer / (m.shape[0] - 1)
+
 print("Estimated variance of the first column of Y: {!s}".format(coVariance(oneHotData, 0, 0)))
 
 # We can double check this by:
@@ -179,13 +182,10 @@ def zScore(m):
     for row in range(z_score.shape[0]):
         for col in range(z_score.shape[1]):
             z_score[row, col] = 0
-
             x_ij = m[row, col]
             mean = m[:,col].mean()
             div = math.sqrt(coVariance(m, col, col))
-
             z_score[row, col] = (x_ij - mean) / div
-
     return z_score
 
 z_data = zScore(oneHotData)
