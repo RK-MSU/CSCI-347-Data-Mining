@@ -1,0 +1,47 @@
+# Conda
+
+Now, let's get to environment. First, let's use conda to create an environment.
+
+    conda create --name csci347 python=3.8
+
+And activate the environment
+
+    conda activate csci347
+
+## Packages
+
+Install packages
+
+    conda install pip numpy
+
+Packages used in this class:
+
+- `pip`
+- `numpy`
+- `jupyter`
+- `pandas`
+- `scikit-learn`
+- `matplotlib`
+- `openpyxl`
+
+## Enviroment
+
+List conda environments
+
+    conda env list
+
+### environment.yml
+
+These environments can become very complex in complex projects, so it is often a good idea to capture your environment and keep it in version control. Most often people keep it in a file called `environment.yml`.
+
+### Create YML
+
+We can export the environment with the following command:
+
+    conda env export --file environment.yml
+
+This produces a file called environment.yml take a look at it.
+
+### Import YML Environment
+
+    conda env create -f environment.yml
