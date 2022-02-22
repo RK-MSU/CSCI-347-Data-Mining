@@ -12,7 +12,7 @@ And activate the environment
 
 Install packages
 
-    conda install pip numpy
+    conda install pip numpy jupyter pandas scikit-learn matplotlib openpyxl
 
 Packages used in this class:
 
@@ -23,6 +23,13 @@ Packages used in this class:
 - `scikit-learn`
 - `matplotlib`
 - `openpyxl`
+
+> Installed package of scikit-learn can be accelerated using scikit-learn-intelex.
+    More details are available here: https://intel.github.io/scikit-learn-intelex
+    <br><br>For example:
+
+    $ conda install scikit-learn-intelex
+    $ python -m sklearnex my_application.py
 
 ## Enviroment
 
