@@ -10,7 +10,7 @@ bookdown::gitbook:
     toolbar:
       position: fixed
     fontsettings:
-      theme: night # white, night
+      theme: white # white, night
       family: sans # sans, serif
       size: 2 # integer
     edit: https://github.com/RK-MSU/CSCI-347-Data-Mining/edit/notes/%s
