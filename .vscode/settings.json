@@ -1,0 +1,9 @@
+{
+    "python.autoComplete.extraPaths": [
+        "~/anaconda3/envs/csci347/lib/python3.8/site-packages/pandas"
+    ],
+    "python.analysis.extraPaths": [
+        "~/anaconda3/envs/csci347/lib/python3.8/site-packages/pandas"
+    ],
+    "python.defaultInterpreterPath": "~/anaconda3/envs/csci347/bin/python"
+}
