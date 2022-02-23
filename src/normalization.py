@@ -1,8 +1,8 @@
 
 import numpy as np
-from variance import covariance
-from mean import arrayMean
-from numpy_data_operations import arrMin, arrMax
+from .variance import covariance
+from .mean import arrayMean
+from .numpy_data_operations import arrMin, arrMax
 
 def rangeNormalize(m):
     # create normlized matrix based on shape of input matrix

@@ -1,5 +1,5 @@
 
-from variance import covariance
+from .variance import covariance
 
 def correlation(vi, vj):
     # v_i standard deviation = sqrt(vi co-variance)

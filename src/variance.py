@@ -1,6 +1,6 @@
 
 import numpy as np
-from mean import arrayMean
+from .mean import arrayMean
 
 def covariance(v1, v2 = None):
     if v2 is None: v2 = v1
