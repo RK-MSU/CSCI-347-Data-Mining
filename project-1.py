@@ -53,7 +53,5 @@ df_label_encoded = labelEncodeDataFrame(df)
 multi_di_mean = multiDimensionalMean(label_encoded_matrix)
 
 covar_matrix = covarianceMatrix(label_encoded_matrix)
-print(covar_matrix)
-
 
 # END
