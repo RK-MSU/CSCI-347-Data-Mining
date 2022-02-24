@@ -49,9 +49,91 @@ def labelEncodeDataFrame(df):
 
 label_encoded_matrix = labelEncodeDataFrameToNumpyArray(df)
 df_label_encoded = labelEncodeDataFrame(df)
-
 multi_di_mean = multiDimensionalMean(label_encoded_matrix)
-
 covar_matrix = covarianceMatrix(label_encoded_matrix)
+range_norm_matrix = rangeNormalize(label_encoded_matrix)
+zscore_norm_matrix = zScoreNormalize(label_encoded_matrix)
+
+def calculateGreatestCoVar(m, okay_indices):
+
+    covar_data_dict = {}
+    okay_indices = [2,3,4,5,6,7,8,9]
+
+    for i in okay_indices:
+        for j in okay_indices:
+            if i == j: continue # do not need to check covariance of same column
+            if j in covar_data_dict: continue # no need for duplicates
+            # ensure dictionary value is available
+            if i not in covar_data_dict: covar_data_dict[i] = {}
+            # get col i
+            col_i = m[:,i]
+            # get col v
+            col_j = m[:,j]
+            # calculate covariance between columns i and j
+            var = covariance(col_i, col_j)
+            covar_data_dict[i][j] = var
+    
+    covar_data_list = list()
+    
+    for i in covar_data_dict:
+        for j in covar_data_dict[i]:
+            # covar = covar_data_dict[i][j]
+            covar_data_list.append({
+                "i": i,
+                "j": j,
+                "covar": covar_data_dict[i][j]
+            })
+
+    covar_data_list.sort(key=lambda x: x['covar'], reverse=True)
+
+    highest_covar_pair_data = covar_data_list[0]
+    
+    return {
+        "col_1" : DATA_COL_NAMES[highest_covar_pair_data['i']],
+        "col_1" : DATA_COL_NAMES[highest_covar_pair_data['j']],
+        "covar_value": highest_covar_pair_data['covar']
+    }
+
+covar_data_dict = {}
+numerical_attribute_indecies = [2,3,4,5,6,7,8,9]
+for i in numerical_attribute_indecies:
+    for j in numerical_attribute_indecies:
+        if i == j: continue # do not need to check covariance of same column
+        if j in covar_data_dict: continue # no need for duplicates
+        # ensure dictionary value is available
+        if i not in covar_data_dict: covar_data_dict[i] = {}
+        # get col i
+        col_i = range_norm_matrix[:,i]
+        # get col v
+        col_j = range_norm_matrix[:,j]
+        # calculate covariance between columns i and j
+        var = covariance(col_i, col_j)
+        covar_data_dict[i][j] = var
+
+
+# for i in covar_data_list:
+#     print(i)
+
+# max_covar = None
+# for i in covar_data:
+#     for j in covar_data[i]:
+#         if max_covar is None:
+#             max_covar = {
+#                 "i": i,
+#                 "j": j,
+#                 "covar": covar_data[i][j]
+#             }
+#         else:
+#             if max_covar['covar'] < covar_data[i][j]:
+#                 max_covar = {
+#                     "i": i,
+#                     "j": j,
+#                     "covar": covar_data[i][j]
+#                 }
+#         # print(i, covar_data[i])
+# print(max_covar)
+
+
+
 
 # END
