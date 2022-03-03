@@ -5,6 +5,7 @@
 \newcommand{\proj}{Homework 03}
 
 \usepackage{macros}
+\usepackage{tcolorbox}
 
 
 \begin{document}
@@ -65,34 +66,38 @@ Answer the following:
     \item (3 points) Without using networkx or other graph analysis packages
     (though you may use them to check your answer), find the closeness
     centrality of vertices 3 and 12.
-
-    Closeness Centrality: $cc(x_{i}) = \frac{1}{\sum_{j=1}^{n} d( x_i , x_j )}$
-
     \begin{align*}
         cc(x_{3}) &= \frac{1}{\sum_{j=1}^{n} d( x_3 , x_j )} \\
         &= \frac{1}{1 + 1 + 0 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1} \\
         &= \frac{1}{17} \\
         &= 0.05882352....
     \end{align*}
-
     \begin{align*}
         cc(x_{12}) &= \frac{1}{\sum_{j=1}^{n} d( x_{12} , x_j )} \\
         &= \frac{1}{2+2+1+2+2+1+1+1+1+1+1+0} \\
         &= \frac{1}{15} \\
         &= 0.06666666....
     \end{align*}
+    \begin{tcolorbox}[width=\linewidth,title=Problem 1 Answer - Closeness Centrality]
+        The closeness centrality of vertex 3: $\frac{1}{17}$ or $0.059$ \\
+        The closeness centrality of vertex 12: $\frac{1}{15}$ or $0.067$
+    \end{tcolorbox}
 
+    \newpage
     \item (3 points) Without using networkx or other graph analysis packages
     (though you may use them to check your answer), find the eccentricity of
     vertices 3, 12, and 11.
-
-    Eccentricity of $x_i$ is: $e(x_i) = \max_i \lbrace d( x_{i} , x_{j} ) \rbrace$
-
     \begin{align*}
+        e(x_i) &= \max_{i} \lbrace d( x_{i} , x_{j} ) \rbrace \\
         e(x_3) &= 2 \\
         e(x_{12}) &= 2 \\
         e(x_{11}) &= 3
     \end{align*}
+    \begin{tcolorbox}[width=\linewidth,title=Problem 2 Answer - Eccentricity]
+        The eccentricity of vertex 3: $2$ \\
+        The eccentricity of vertex 12: $2$ \\
+        The eccentricity of vertex 11: $3$
+    \end{tcolorbox}
 
     \item (3 points) Without using networkx or other graph analysis packages
     (though you may use them to check your answer), find the clustering
