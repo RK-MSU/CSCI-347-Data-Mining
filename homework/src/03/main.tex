@@ -66,6 +66,22 @@ Answer the following:
     (though you may use them to check your answer), find the closeness
     centrality of vertices 3 and 12.
 
+    Closeness Centrality: $cc(x_{i}) = \frac{1}{\sum_{j=1}^{n} d( x_i , x_j )}$
+
+    \begin{align*}
+        cc(x_{3}) &= \frac{1}{\sum_{j=1}^{n} d( x_3 , x_j )} \\
+        &= \frac{1}{1 + 1 + 0 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1} \\
+        &= \frac{1}{17} \\
+        &= 0.05882352....
+    \end{align*}
+
+    \begin{align*}
+        cc(x_{12}) &= \frac{1}{\sum_{j=1}^{n} d( x_{12} , x_j )} \\
+        &= \frac{1}{2+2+1+2+2+1+1+1+1+1+1+0} \\
+        &= \frac{1}{15} \\
+        &= 0.06666666....
+    \end{align*}
+
     \item (3 points) Without using networkx or other graph analysis packages
     (though you may use them to check your answer), find the eccentricity of
     vertices 3, 12, and 11.
