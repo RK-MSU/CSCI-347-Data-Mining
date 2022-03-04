@@ -69,35 +69,45 @@ Answer the following:
     \item (3 points) Without using networkx or other graph analysis packages
     (though you may use them to check your answer), find the closeness
     centrality of vertices 3 and 12.
+    \begin{tcolorbox}[width=\linewidth,colback=yellow!5,colframe=yellow!75!black!75,title=Notes]
+        Closeness Centrality of $x_i$:
+        $$cc(x_{i}) = \frac{1}{\sum_{j=1}^{n} d( x_i , x_j )}$$
+        Where $d( x_i , x_j )$ is the shortest path between $x_i$ and $x_j$.
+    \end{tcolorbox}
+    The closeness centrality of vertices 3:
     \begin{align*}
         cc(x_{3}) &= \frac{1}{\sum_{j=1}^{n} d( x_3 , x_j )} \\
         &= \frac{1}{1 + 1 + 0 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1} \\
         &= \frac{1}{17} \\
-        &= 0.05882352....
+        &= 0.05882....
     \end{align*}
+    The closeness centrality of vertices 12:
     \begin{align*}
         cc(x_{12}) &= \frac{1}{\sum_{j=1}^{n} d( x_{12} , x_j )} \\
         &= \frac{1}{2+2+1+2+2+1+1+1+1+1+1+0} \\
         &= \frac{1}{15} \\
-        &= 0.06666666....
+        &= 0.06666....
     \end{align*}
     \begin{tcolorbox}[width=\linewidth,title=Problem 1 Answer - Closeness Centrality]
+        \textit{Note: This solution was done by hand.}\vspace{5pt} \\
         The closeness centrality of vertex 3: $\frac{1}{17}$ or $0.059$ \\
         The closeness centrality of vertex 12: $\frac{1}{15}$ or $0.067$
     \end{tcolorbox}
-
     % Problem 2
-    \newpage
     \item (3 points) Without using networkx or other graph analysis packages
     (though you may use them to check your answer), find the eccentricity of
     vertices 3, 12, and 11.
+    \begin{tcolorbox}[width=\linewidth,colback=yellow!5,colframe=yellow!75!black!75,title=Notes]
+        % Eccentricity: the less eccentric a node is the more central it is. \\
+        Eccentricity of $x_i$ is: $$e(x_i) = \max_{i} \lbrace d( x_{i} , x_{j} ) \rbrace$$
+    \end{tcolorbox}
     \begin{align*}
-        e(x_i) &= \max_{i} \lbrace d( x_{i} , x_{j} ) \rbrace \\
         e(x_3) &= 2 \\
         e(x_{12}) &= 2 \\
         e(x_{11}) &= 3
     \end{align*}
     \begin{tcolorbox}[width=\linewidth,title=Problem 2 Answer - Eccentricity]
+        \textit{Note: This solution was done by hand.}\vspace{5pt} \\
         The eccentricity of vertex 3: $2$ \\
         The eccentricity of vertex 12: $2$ \\
         The eccentricity of vertex 11: $3$
@@ -107,13 +117,19 @@ Answer the following:
     \item (3 points) Without using networkx or other graph analysis packages
     (though you may use them to check your answer), find the clustering
     coefficient of vertex 3.
+    \begin{tcolorbox}[width=\linewidth,colback=yellow!5,colframe=yellow!75!black!75,title=Notes]
+        Let $G_i = (V_i, E_i)$ be the subgraph included by the neighbors of node $x_i$. \\
+        Let $n_i = \mid V_i \mid$ and $m_i = \mid VE_i \mid$, \\
+        Clustering Coefficient of $x_i$:
+        $$\frac{ m_{i} }{ ( \substack{ n_{i} \\ 2} ) } = \frac{ \text{\# of edges amoung neighbors of } x_{i} }{ \text{\# of possible edges amoung neighbors of } x_{i} }$$
+    \end{tcolorbox}
     \begin{align*}
-        \frac{ m_{i} }{ ( \substack{ n_{i} \\ 2} ) } &= \frac{ \text{\# of edges amoung neighbors of } x_{i} }{ \text{\# of possible edges amoung neighbors of } x_{i} } \\
         \frac{ m_{3} }{ ( \substack{ n_{3} \\ 2} ) } &= \frac{2}{10} \\
         &= \frac{1}{5} \\
         &= 0.2
     \end{align*}
     \begin{tcolorbox}[width=\linewidth,title=Problem 3 Answer - Clustering Coefficient]
+        \textit{Note: This solution was done by hand.}\vspace{5pt} \\
         The clustering coefficient of vertex 3 is $\frac{1}{5}$ or $0.2$
     \end{tcolorbox}
 
