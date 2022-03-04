@@ -1,3 +1,10 @@
 # Basics
 
 .DS_Store
+
+homework/src/*/*\.pdf
+homework/src/*/*\.aux
+homework/src/*/*\.fdb_latexmk
+homework/src/*/*\.fls
+homework/src/*/*\.log
+homework/src/*/*\.synctex.gz
