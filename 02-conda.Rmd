@@ -52,3 +52,10 @@ This produces a file called environment.yml take a look at it.
 ### Import YML Environment
 
     conda env create -f environment.yml
+    
+### Config Stuff
+
+disable the automatic base activation:
+
+    conda config --set auto_activate_base false
+
