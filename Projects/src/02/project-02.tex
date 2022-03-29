@@ -1,0 +1,1142 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Project 02}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    River Kelly \& Kyler Gappa
+
+CSCI-347: Data Mining
+
+Project 02: Exploring Graph Data
+
+    Partner work is allowed on this project.
+
+Choose a data set that you are interested in from one of the following
+sources: - SNAP collection: https://snap.stanford.edu/data - Network
+Repository: http://networkrepository.com/index.php
+
+Run all the analysis in this project on the largest connected component
+of the graph. Note that many of these datasets are quite large. If
+analyzing the data its taking too long, you may pre-process it by taking
+a sample of the graph first, and then extracting the largest connected
+component, to get the graph down to a manageable size.
+
+    \hypertarget{python-setup-code}{%
+\section*{Python Setup Code}\label{python-setup-code}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} import libraries}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{networkx} \PY{k}{as} \PY{n+nn}{nx}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{urllib}\PY{n+nn}{.}\PY{n+nn}{request}
+\PY{k+kn}{import} \PY{n+nn}{io}
+\PY{k+kn}{import} \PY{n+nn}{gzip}
+\PY{k+kn}{import} \PY{n+nn}{random} \PY{k}{as} \PY{n+nn}{rd}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{DATA\PYZus{}URL} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://snap.stanford.edu/data/facebook\PYZus{}combined.txt.gz}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{getFileData}\PY{p}{(}\PY{n}{url}\PY{p}{:} \PY{n+nb}{str}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{list}\PY{p}{:}
+    \PY{n}{response} \PY{o}{=} \PY{n}{urllib}\PY{o}{.}\PY{n}{request}\PY{o}{.}\PY{n}{urlopen}\PY{p}{(}\PY{n}{url}\PY{p}{)}
+    \PY{n}{compressed\PYZus{}file} \PY{o}{=} \PY{n}{io}\PY{o}{.}\PY{n}{BytesIO}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+    \PY{n}{decompressed\PYZus{}file} \PY{o}{=} \PY{n}{gzip}\PY{o}{.}\PY{n}{GzipFile}\PY{p}{(}\PY{n}{fileobj}\PY{o}{=}\PY{n}{compressed\PYZus{}file}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} read file to edges list}
+    \PY{n}{edges}\PY{p}{:} \PY{n+nb}{list} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+        \PY{n}{line} \PY{o}{=} \PY{n}{decompressed\PYZus{}file}\PY{o}{.}\PY{n}{readline}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{o+ow}{not} \PY{n}{line}\PY{p}{:} \PY{k}{break} \PY{c+c1}{\PYZsh{} no more lines to read}
+        \PY{c+c1}{\PYZsh{} parse line string}
+        \PY{n}{line} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{line}\PY{o}{.}\PY{n}{decode}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{utf\PYZhy{}8}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}
+        \PY{n}{edge\PYZus{}str\PYZus{}data} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{point\PYZus{}1} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{edge\PYZus{}str\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+        \PY{n}{point\PYZus{}2} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{edge\PYZus{}str\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{n}{edge} \PY{o}{=} \PY{p}{(}\PY{n}{point\PYZus{}1}\PY{p}{,} \PY{n}{point\PYZus{}2}\PY{p}{)}
+        \PY{n}{edges}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{edge}\PY{p}{)}
+    \PY{n}{decompressed\PYZus{}file}\PY{o}{.}\PY{n}{close}\PY{p}{(}\PY{p}{)}
+    \PY{n}{compressed\PYZus{}file}\PY{o}{.}\PY{n}{close}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{edges}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{part-1-think-about-the-data}{%
+\section*{Part 1: Think about the
+data}\label{part-1-think-about-the-data}}
+
+    This data set is interesting because it shows the connectivity of each
+person social circle. This can lead to a better understanding of how
+people with different interests connect to each other. We expect that
+nodes with a high level of centrality to be people with a large amount
+of popular interests. These people could then be good to advertise
+around as they are most likely to influence a large population. We did
+not take a sample of the elements from the data set.
+
+    \hypertarget{part-2-write-python-code-for-graph-analysis}{%
+\section*{Part 2: Write Python code for graph
+analysis}\label{part-2-write-python-code-for-graph-analysis}}
+
+    Write the following functions in Python. You may assume that the input
+graph is unweighted, undirected, and simple -- has no parallel edges and
+no loops. Functions provided by networkx can be used within your code,
+as long as the function does not perform the same task as what you are
+being asked to implement. For example, you cannot use networkx's
+betweenness centrality function within your own betweenness centrality
+function, but you can use networkx's functions for finding shortest
+paths. You may also assume that vertices are represented as integers (so
+the pair (1,3) indicates that there is an edge between vertex 1 and 3,
+for example).
+
+    \hypertarget{points-number-of-vertices}{%
+\subsection*{1. (5 points) Number of
+vertices}\label{points-number-of-vertices}}
+
+    A function that takes the following input: a list of edges representing
+a graph, where each edge is a pair. The output should be the number of
+vertices.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} numberOfVertices() \PYZhy{} returns the number of vertices}
+\PY{c+c1}{\PYZsh{} params: }
+\PY{c+c1}{\PYZsh{}   \PYZhy{} edges: list}
+\PY{k}{def} \PY{n+nf}{numberOfVertices}\PY{p}{(}\PY{n}{edges}\PY{p}{:} \PY{n+nb}{list}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} list to maintain the individual vertices}
+    \PY{n}{vertices\PYZus{}list} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} loop through list of edges}
+    \PY{k}{for} \PY{n}{edge} \PY{o+ow}{in} \PY{n}{edges}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} loop through each vertex in the edge}
+        \PY{k}{for} \PY{n}{vertex} \PY{o+ow}{in} \PY{n}{edge}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} check if vertex has already been accounted for in the list}
+            \PY{k}{if} \PY{n}{vertex} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{vertices\PYZus{}list}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} add the vertex to the list of all vertices}
+                \PY{n}{vertices\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{vertex}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} return the length of the vertices list (i.e. the total number of vertices)}
+    \PY{k}{return} \PY{n+nb}{len}\PY{p}{(}\PY{n}{vertices\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{points-degree-of-a-vertex}{%
+\subsection*{2. (5 points) Degree of a
+vertex}\label{points-degree-of-a-vertex}}
+
+    A function that takes the following input: a list of edges representing
+a graph, where each edge is a pair, and a vertex index that is an
+integer. The output should be the degree of the input vertex.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} vertexDegree() \PYZhy{} Computes the degree of a given vertex}
+\PY{c+c1}{\PYZsh{} params:}
+\PY{c+c1}{\PYZsh{}   \PYZhy{} edges: list }
+\PY{c+c1}{\PYZsh{}   \PYZhy{} vertex: int}
+\PY{k}{def} \PY{n+nf}{vertexDegree}\PY{p}{(}\PY{n}{edges}\PY{p}{:} \PY{n+nb}{list}\PY{p}{,} \PY{n}{vertex}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,} \PY{n}{returnAdjacentVertexList}\PY{p}{:} \PY{n+nb}{bool} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} list of adjacent verticies}
+    \PY{n}{adjacent\PYZus{}vertices\PYZus{}list} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} loop through the list of edges (i.e list of vertice }
+    \PY{c+c1}{\PYZsh{} pairs that make up the edges)}
+    \PY{k}{for} \PY{n}{edge} \PY{o+ow}{in} \PY{n}{edges}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} does the edge contain the vertex of interest}
+        \PY{k}{if} \PY{n}{vertex} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{edge}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} skip this edge, not vertices of interes}
+            \PY{k}{continue}
+        \PY{c+c1}{\PYZsh{} this edge does contain a vertice of interest.}
+        \PY{c+c1}{\PYZsh{} lets loop through each of the vertices that make up the}
+        \PY{c+c1}{\PYZsh{} edge and see if we need to count it}
+        \PY{k}{for} \PY{n}{edge\PYZus{}vertex} \PY{o+ow}{in} \PY{n}{edge}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} is this edge\PYZus{}vertex the vertex of interest}
+            \PY{k}{if} \PY{n}{edge\PYZus{}vertex} \PY{o}{==} \PY{n}{vertex}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} it is, so lets skip it}
+                \PY{k}{continue}
+            \PY{c+c1}{\PYZsh{} have we already counted this vertice}
+            \PY{k}{if} \PY{n}{edge\PYZus{}vertex} \PY{o+ow}{in} \PY{n}{adjacent\PYZus{}vertices\PYZus{}list}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} we have, so lets skip it}
+                \PY{k}{continue}
+            \PY{c+c1}{\PYZsh{} append the vertice to the list of adjacent vertices}
+            \PY{n}{adjacent\PYZus{}vertices\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{edge\PYZus{}vertex}\PY{p}{)}
+    \PY{k}{if} \PY{n}{returnAdjacentVertexList} \PY{o+ow}{is} \PY{k+kc}{True}\PY{p}{:}
+        \PY{k}{return} \PY{n}{adjacent\PYZus{}vertices\PYZus{}list}
+    \PY{k}{return} \PY{n+nb}{len}\PY{p}{(}\PY{n}{adjacent\PYZus{}vertices\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{points-clustering-coefficient-of-a-vertex}{%
+\subsection*{3. (5 points) Clustering coefficient of a
+vertex}\label{points-clustering-coefficient-of-a-vertex}}
+
+    A function that takes the following input: a list of edges representing
+a graph, where each edge is a pair, and a vertex index that is an
+integer. The output should be the clustering coefficient of the input
+vertex.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{vertexClusteringCoefficient}\PY{p}{(}\PY{n}{edges}\PY{p}{:} \PY{n+nb}{list}\PY{p}{,} \PY{n}{vertex}\PY{p}{:} \PY{n+nb}{int}\PY{p}{)}\PY{p}{:}
+    \PY{n}{adjacent\PYZus{}vertices\PYZus{}list} \PY{o}{=} \PY{n}{vertexDegree}\PY{p}{(}\PY{n}{edges}\PY{o}{=}\PY{n}{edges}\PY{p}{,} \PY{n}{vertex}\PY{o}{=}\PY{n}{vertex}\PY{p}{,} \PY{n}{returnAdjacentVertexList}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{neighbor\PYZus{}edge\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+    \PY{n}{edges\PYZus{}amoung\PYZus{}neighbors} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{edge} \PY{o+ow}{in} \PY{n}{edges}\PY{p}{:}
+        \PY{n}{p1} \PY{o}{=} \PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+        \PY{n}{p2} \PY{o}{=} \PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+        \PY{k}{if} \PY{n}{p1} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{adjacent\PYZus{}vertices\PYZus{}list} \PY{o+ow}{or} \PY{n}{p2} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{adjacent\PYZus{}vertices\PYZus{}list}\PY{p}{:} \PY{k}{continue}
+        \PY{k}{if} \PY{n}{p2} \PY{o+ow}{in} \PY{n}{neighbor\PYZus{}edge\PYZus{}dict}\PY{p}{:}
+            \PY{k}{if} \PY{n}{p1} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{neighbor\PYZus{}edge\PYZus{}dict}\PY{p}{[}\PY{n}{p2}\PY{p}{]}\PY{p}{:}
+                \PY{n}{neighbor\PYZus{}edge\PYZus{}dict}\PY{p}{[}\PY{n}{p2}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{p1}\PY{p}{)}
+            \PY{k}{continue}
+        \PY{k}{if} \PY{n}{p1} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{neighbor\PYZus{}edge\PYZus{}dict}\PY{p}{:}
+            \PY{n}{neighbor\PYZus{}edge\PYZus{}dict}\PY{p}{[}\PY{n}{p1}\PY{p}{]} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{p2} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{neighbor\PYZus{}edge\PYZus{}dict}\PY{p}{[}\PY{n}{p1}\PY{p}{]}\PY{p}{:}
+            \PY{n}{neighbor\PYZus{}edge\PYZus{}dict}\PY{p}{[}\PY{n}{p1}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{p2}\PY{p}{)}
+        \PY{n}{edges\PYZus{}amoung\PYZus{}neighbors}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{edge}\PY{p}{)}
+    \PY{n}{num\PYZus{}edges\PYZus{}amoung\PYZus{}neighbors} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{edges\PYZus{}amoung\PYZus{}neighbors}\PY{p}{)}
+    \PY{n}{num\PYZus{}of\PYZus{}neighbor\PYZus{}vertices} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{adjacent\PYZus{}vertices\PYZus{}list}\PY{p}{)}
+    \PY{n}{answer} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{c+c1}{\PYZsh{} avoid division by 0}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{num\PYZus{}possible\PYZus{}edges} \PY{o}{=} \PY{p}{(}\PY{n}{num\PYZus{}of\PYZus{}neighbor\PYZus{}vertices} \PY{o}{*} \PY{p}{(}\PY{n}{num\PYZus{}of\PYZus{}neighbor\PYZus{}vertices} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)} \PY{p}{)} \PY{o}{/} \PY{l+m+mi}{2}
+        \PY{n}{answer} \PY{o}{=} \PY{n}{num\PYZus{}edges\PYZus{}amoung\PYZus{}neighbors} \PY{o}{/} \PY{n}{num\PYZus{}possible\PYZus{}edges}
+    \PY{k}{except}\PY{p}{:}
+        \PY{k}{pass}
+    \PY{k}{return} \PY{n}{answer}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{points-betweenness-centrality-of-a-vertex}{%
+\subsection*{4. (5 points) Betweenness centrality of a
+vertex}\label{points-betweenness-centrality-of-a-vertex}}
+
+    A function that takes the following input: a list of edges representing
+a graph, where each edge is a pair, and a vertex index that is an
+integer. The output should be the betweenness centrality of the input
+vertex.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{shortest\PYZus{}path\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+\PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{getShortestPath}\PY{p}{(}\PY{n}{betweenness\PYZus{}G}\PY{p}{,} \PY{n}{v1}\PY{p}{,} \PY{n}{v2}\PY{p}{)}\PY{p}{:}
+    \PY{k}{global} \PY{n}{shortest\PYZus{}path\PYZus{}dict}
+    \PY{n}{lower\PYZus{}v} \PY{o}{=} \PY{n}{v1}
+    \PY{n}{greater\PYZus{}v} \PY{o}{=} \PY{n}{v2}
+    \PY{k}{if} \PY{n}{v1} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{v2}\PY{p}{:}
+        \PY{n}{lower\PYZus{}v} \PY{o}{=} \PY{n}{v1}
+        \PY{n}{greater\PYZus{}v} \PY{o}{=} \PY{n}{v2}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{lower\PYZus{}v} \PY{o}{=} \PY{n}{v2}
+        \PY{n}{greater\PYZus{}v} \PY{o}{=} \PY{n}{v1}
+
+    \PY{k}{if} \PY{n}{lower\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}dict} \PY{o+ow}{and} \PY{n}{greater\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}dict}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}\PY{p}{:}
+        \PY{k}{return} \PY{n}{shortest\PYZus{}path\PYZus{}dict}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]}
+    \PY{k}{elif} \PY{n}{greater\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}dict} \PY{o+ow}{and} \PY{n}{lower\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}dict}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]}\PY{p}{:}
+        \PY{k}{return} \PY{n}{shortest\PYZus{}path\PYZus{}dict}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{shortest\PYZus{}path} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{shortest\PYZus{}path}\PY{p}{(}\PY{n}{betweenness\PYZus{}G}\PY{p}{,} \PY{n}{lower\PYZus{}v}\PY{p}{,} \PY{n}{greater\PYZus{}v}\PY{p}{)}
+        \PY{n}{shortest\PYZus{}path\PYZus{}dict}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]} \PY{o}{=} \PY{n}{shortest\PYZus{}path}
+        \PY{k}{return} \PY{n}{shortest\PYZus{}path}
+
+\PY{k}{def} \PY{n+nf}{getShortestPathLength}\PY{p}{(}\PY{n}{betweenness\PYZus{}G}\PY{p}{,} \PY{n}{v1}\PY{p}{,} \PY{n}{v2}\PY{p}{)}\PY{p}{:}
+    \PY{k}{global} \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict}
+    \PY{n}{lower\PYZus{}v} \PY{o}{=} \PY{n}{v1}
+    \PY{n}{greater\PYZus{}v} \PY{o}{=} \PY{n}{v2}
+    \PY{k}{if} \PY{n}{v1} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{v2}\PY{p}{:}
+        \PY{n}{lower\PYZus{}v} \PY{o}{=} \PY{n}{v1}
+        \PY{n}{greater\PYZus{}v} \PY{o}{=} \PY{n}{v2}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{lower\PYZus{}v} \PY{o}{=} \PY{n}{v2}
+        \PY{n}{greater\PYZus{}v} \PY{o}{=} \PY{n}{v1}
+
+    \PY{k}{if} \PY{n}{lower\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict} \PY{o+ow}{and} \PY{n}{greater\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}\PY{p}{:}
+        \PY{k}{return} \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]}
+    \PY{k}{elif} \PY{n}{greater\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict} \PY{o+ow}{and} \PY{n}{lower\PYZus{}v} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]}\PY{p}{:}
+        \PY{k}{return} \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{shortest\PYZus{}path\PYZus{}len} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{shortest\PYZus{}path\PYZus{}length}\PY{p}{(}\PY{n}{betweenness\PYZus{}G}\PY{p}{,} \PY{n}{lower\PYZus{}v}\PY{p}{,} \PY{n}{greater\PYZus{}v}\PY{p}{)}
+        \PY{n}{shortest\PYZus{}path\PYZus{}len\PYZus{}dict}\PY{p}{[}\PY{n}{lower\PYZus{}v}\PY{p}{]}\PY{p}{[}\PY{n}{greater\PYZus{}v}\PY{p}{]} \PY{o}{=} \PY{n}{shortest\PYZus{}path\PYZus{}len}
+        \PY{k}{return} \PY{n}{shortest\PYZus{}path\PYZus{}len}
+
+\PY{n}{betweenness\PYZus{}vertices} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{betweenness\PYZus{}G} \PY{o}{=} \PY{k+kc}{None}
+
+\PY{k}{def} \PY{n+nf}{vertexBetweennessCentrality}\PY{p}{(}\PY{n}{edges}\PY{p}{:} \PY{n+nb}{list}\PY{p}{,} \PY{n}{source\PYZus{}vertex}\PY{p}{:} \PY{n+nb}{int}\PY{p}{)}\PY{p}{:}
+    \PY{k}{global} \PY{n}{betweenness\PYZus{}vertices}
+    \PY{k}{global} \PY{n}{betweenness\PYZus{}G}
+    \PY{k}{if} \PY{n}{betweenness\PYZus{}vertices} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:}
+        \PY{n}{betweenness\PYZus{}vertices} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+        \PY{n}{betweenness\PYZus{}G} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{Graph}\PY{p}{(}\PY{p}{)}
+        \PY{k}{for} \PY{n}{edge} \PY{o+ow}{in} \PY{n}{edges}\PY{p}{:}
+            \PY{n}{betweenness\PYZus{}vertices}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            \PY{n}{betweenness\PYZus{}vertices}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+            \PY{n}{betweenness\PYZus{}G}\PY{o}{.}\PY{n}{add\PYZus{}edge}\PY{p}{(}\PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{n}{betweenness\PYZus{}vertices} \PY{o}{=} \PY{n+nb}{set}\PY{p}{(}\PY{n}{betweenness\PYZus{}vertices}\PY{p}{)}
+    \PY{n}{vertices} \PY{o}{=} \PY{n}{betweenness\PYZus{}vertices}
+    \PY{n}{already\PYZus{}compared} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+    \PY{k}{def} \PY{n+nf}{hasBeenCompared}\PY{p}{(}\PY{n}{v1}\PY{p}{,} \PY{n}{v2}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{v1} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{already\PYZus{}compared}\PY{p}{:} \PY{n}{already\PYZus{}compared}\PY{p}{[}\PY{n}{v1}\PY{p}{]} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{v2} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{already\PYZus{}compared}\PY{p}{[}\PY{n}{v1}\PY{p}{]}\PY{p}{:}
+            \PY{n}{already\PYZus{}compared}\PY{p}{[}\PY{n}{v1}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{v2}\PY{p}{)}
+            \PY{k}{return} \PY{k+kc}{False}
+        \PY{k}{if} \PY{n}{v2} \PY{o+ow}{in} \PY{n}{already\PYZus{}compared}\PY{p}{:}
+            \PY{k}{if} \PY{n}{v1} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{already\PYZus{}compared}\PY{p}{[}\PY{n}{v2}\PY{p}{]}\PY{p}{:}
+                \PY{n}{already\PYZus{}compared}\PY{p}{[}\PY{n}{v2}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{v1}\PY{p}{)}
+                \PY{k}{return} \PY{k+kc}{False}
+        \PY{k}{return} \PY{k+kc}{True}
+
+    \PY{n}{answer} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{for} \PY{n}{vertex1} \PY{o+ow}{in} \PY{n}{vertices}\PY{p}{:}
+        \PY{k}{if} \PY{n}{vertex1} \PY{o}{==} \PY{n}{source\PYZus{}vertex}\PY{p}{:} \PY{k}{continue}
+        \PY{k}{for} \PY{n}{vertex2} \PY{o+ow}{in} \PY{n}{vertices}\PY{p}{:}
+            \PY{k}{if} \PY{n}{vertex2} \PY{o}{==} \PY{n}{source\PYZus{}vertex}\PY{p}{:} \PY{k}{continue}
+            \PY{k}{if} \PY{n}{hasBeenCompared}\PY{p}{(}\PY{n}{vertex1}\PY{p}{,} \PY{n}{vertex2}\PY{p}{)}\PY{p}{:} \PY{k}{continue}
+            \PY{n}{sub\PYZus{}top} \PY{o}{=} \PY{l+m+mi}{0}
+            \PY{n}{sub\PYZus{}bottom} \PY{o}{=} \PY{l+m+mi}{0}
+            \PY{n}{sub\PYZus{}answer} \PY{o}{=} \PY{l+m+mi}{0}
+            \PY{k}{try}\PY{p}{:}
+                \PY{n}{shortest\PYZus{}path} \PY{o}{=} \PY{n}{getShortestPath}\PY{p}{(}\PY{n}{betweenness\PYZus{}G}\PY{p}{,} \PY{n}{vertex1}\PY{p}{,} \PY{n}{vertex2}\PY{p}{)}
+                \PY{n}{shortest\PYZus{}path\PYZus{}len} \PY{o}{=} \PY{n}{getShortestPathLength}\PY{p}{(}\PY{n}{betweenness\PYZus{}G}\PY{p}{,} \PY{n}{vertex1}\PY{p}{,} \PY{n}{vertex2}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} shortest\PYZus{}path = nx.shortest\PYZus{}path(G, vertex1, vertex2)}
+                \PY{c+c1}{\PYZsh{} shortest\PYZus{}path\PYZus{}len = nx.shortest\PYZus{}path\PYZus{}length(G, vertex1, vertex2)}
+                \PY{k}{if} \PY{n}{source\PYZus{}vertex} \PY{o+ow}{in} \PY{n}{shortest\PYZus{}path}\PY{p}{:}
+                    \PY{n}{sub\PYZus{}top} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{k}{if} \PY{n}{shortest\PYZus{}path\PYZus{}len} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+                    \PY{n}{sub\PYZus{}bottom} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{sub\PYZus{}answer} \PY{o}{=} \PY{n}{sub\PYZus{}top} \PY{o}{/} \PY{n}{sub\PYZus{}bottom}
+            \PY{k}{except}\PY{p}{:}
+                \PY{k}{continue}
+            \PY{n}{answer} \PY{o}{+}\PY{o}{=} \PY{n}{sub\PYZus{}answer}
+
+    \PY{k}{return} \PY{n}{answer}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{points-adjacency-matrix}{%
+\subsection*{5. (5 points) Adjacency
+matrix}\label{points-adjacency-matrix}}
+
+    A function that takes the following input: a list of edges representing
+a graph, where each edge is a pair. The output should be the dense
+adjacency matrix of the graph.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{adjacencyMatrix}\PY{p}{(}\PY{n}{edges}\PY{p}{:} \PY{n+nb}{list}\PY{p}{)}\PY{p}{:}
+    \PY{n}{num\PYZus{}of\PYZus{}vertices} \PY{o}{=} \PY{n}{numberOfVertices}\PY{p}{(}\PY{n}{edges}\PY{o}{=}\PY{n}{edges}\PY{p}{)}
+    \PY{n}{m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n}{num\PYZus{}of\PYZus{}vertices}\PY{p}{,} \PY{n}{num\PYZus{}of\PYZus{}vertices}\PY{p}{)}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{int}\PY{p}{)} \PY{c+c1}{\PYZsh{} output matrix}
+    \PY{c+c1}{\PYZsh{} zero values}
+    \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{m}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{n}{m}\PY{p}{[}\PY{n}{row}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n}{m}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{k}{for} \PY{n}{edge} \PY{o+ow}{in} \PY{n}{edges}\PY{p}{:}
+        \PY{n}{m}\PY{p}{[}\PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+    \PY{k}{return} \PY{n}{m}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{points-prestige-centrality-of-vertices}{%
+\subsection*{6. (10 points) Prestige centrality of
+vertices}\label{points-prestige-centrality-of-vertices}}
+
+    A function that takes the following input: a dense adjacency matrix
+representation of a graph. The output should be the prestige values for
+each vertex in the graph. (Note, you may NOT use linear algebra
+functions in numpy, spicy, or any other library to find eigenvectors but
+you MAY use linear algebra functions for transpose, matrix-vector
+multiplication, computing the dot product, the norm, and argmax.)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{prestige\PYZus{}centrality}\PY{p}{(}\PY{n}{m}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{matrix}\PY{p}{,} \PY{n}{max\PYZus{}iter} \PY{o}{=} \PY{l+m+mi}{100000}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} validate matrix data type}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{m}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{matrix}\PY{p}{)}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{TypeError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{matrix `m` must be type `np.matrix`}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} transpose matrix}
+    \PY{n}{a} \PY{o}{=} \PY{n}{m}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} a = m}
+
+    \PY{n}{p\PYZus{}0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{*} \PY{n}{a}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+    \PY{n}{p\PYZus{}arr} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{n}{p\PYZus{}arr}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{p\PYZus{}0}\PY{p}{)}
+
+
+    \PY{c+c1}{\PYZsh{} power iteration}
+    \PY{n}{iter\PYZus{}count} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+        \PY{n}{iter\PYZus{}count} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+        \PY{k}{if} \PY{n}{iter\PYZus{}count} \PY{o}{\PYZgt{}} \PY{n}{max\PYZus{}iter}\PY{p}{:} \PY{k}{break}
+        \PY{n}{p\PYZus{}j} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n}{a}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+        \PY{n}{p\PYZus{}i} \PY{o}{=} \PY{n}{p\PYZus{}arr}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n}{p\PYZus{}arr}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n}{j\PYZus{}index} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{a}\PY{p}{:}
+            \PY{n}{a\PYZus{}i\PYZus{}row} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+            \PY{n}{p\PYZus{}j}\PY{p}{[}\PY{n}{j\PYZus{}index}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{a\PYZus{}i\PYZus{}row}\PY{p}{,} \PY{n}{p\PYZus{}i}\PY{p}{)}
+            \PY{n}{j\PYZus{}index} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+        \PY{c+c1}{\PYZsh{} normalize the vector}
+        \PY{n}{p\PYZus{}j} \PY{o}{=} \PY{n}{p\PYZus{}j} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{amax}\PY{p}{(}\PY{n}{p\PYZus{}j}\PY{p}{)}
+        \PY{n}{p\PYZus{}arr}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{p\PYZus{}j}\PY{p}{)}
+        \PY{n}{converged} \PY{o}{=} \PY{k+kc}{True}
+        \PY{k}{for} \PY{n}{p\PYZus{}j\PYZus{}index} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{p\PYZus{}j}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+            \PY{n}{j\PYZus{}val} \PY{o}{=} \PY{n}{p\PYZus{}j}\PY{p}{[}\PY{n}{p\PYZus{}j\PYZus{}index}\PY{p}{]}
+            \PY{n}{i\PYZus{}val} \PY{o}{=} \PY{n}{p\PYZus{}i}\PY{p}{[}\PY{n}{p\PYZus{}j\PYZus{}index}\PY{p}{]}
+            \PY{n}{i\PYZus{}j\PYZus{}diff} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{j\PYZus{}val} \PY{o}{\PYZhy{}} \PY{n}{i\PYZus{}val}\PY{p}{)}
+            \PY{k}{if} \PY{n}{i\PYZus{}j\PYZus{}diff} \PY{o}{\PYZgt{}} \PY{l+m+mf}{0.00001}\PY{p}{:}
+                \PY{n}{converged} \PY{o}{=} \PY{k+kc}{False}
+                \PY{k}{break}
+        \PY{k}{if} \PY{n}{converged} \PY{o+ow}{is} \PY{k+kc}{True}\PY{p}{:}
+            \PY{k}{break}
+
+    \PY{k}{return} \PY{n}{p\PYZus{}arr}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n}{p\PYZus{}arr}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{part-3-analyze-the-graph-data}{%
+\section*{Part 3: Analyze the graph
+data}\label{part-3-analyze-the-graph-data}}
+
+    Using tables or figures as appropriate, report the following. You may
+treat the graph as a simple undirected, unweighted graph. You may use
+networkx functions in all of Part 3, but you are encouraged to test out
+your functions from Part 2 on real-world data.
+
+    \hypertarget{code-setup}{%
+\subsection*{Code Setup}\label{code-setup}}
+
+    Get list of edges from the real world data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{edges} \PY{o}{=} \PY{n}{getFileData}\PY{p}{(}\PY{n}{DATA\PYZus{}URL}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Create a NetworkX Graph from the real world data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} G will be the complete graph of all the edged from the real world data.}
+\PY{n}{G} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{Graph}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} add edges to the graph}
+\PY{k}{for} \PY{n}{edge} \PY{o+ow}{in} \PY{n}{edges}\PY{p}{:} \PY{n}{G}\PY{o}{.}\PY{n}{add\PYZus{}edge}\PY{p}{(}\PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{edge}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Show graph info}
+\PY{n}{nx}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{n}{G}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+'Graph with 4039 nodes and 88234 edges'
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{helper-functions}{%
+\subsubsection*{Helper Functions}\label{helper-functions}}
+
+    The following are some common methods that will be used.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} function to sort a dictionary by its values}
+\PY{k}{def} \PY{n+nf}{sortDictionaryByValues}\PY{p}{(}\PY{n}{d}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{ascending}\PY{p}{:} \PY{n+nb}{bool} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} validate the input `d` is type dictionary}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n+nb}{dict}\PY{p}{)}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{TypeError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{`d` must be type `dict`.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} return the sorted dictionary}
+    \PY{k}{return} \PY{p}{\PYZob{}}\PY{n}{k}\PY{p}{:} \PY{n}{v} \PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{d}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{item}\PY{p}{:} \PY{n}{item}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{reverse}\PY{o}{=}\PY{n}{ascending}\PY{p}{)}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} this method returns a dictionary containing the first elements}
+\PY{c+c1}{\PYZsh{} through a given limit. (i.e. elements 0\PYZhy{}n)}
+\PY{k}{def} \PY{n+nf}{limitNumDictionaryElements}\PY{p}{(}\PY{n}{d}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{limit}\PY{p}{:} \PY{n+nb}{int} \PY{o}{=} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} validate the input `d` is type dictionary}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n+nb}{dict}\PY{p}{)}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{TypeError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{`d` must be type `dict`.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} return the limited dictionary}
+    \PY{k}{return} \PY{p}{\PYZob{}}\PY{n}{k}\PY{p}{:} \PY{n}{v} \PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{list}\PY{p}{(}\PY{n}{d}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{n}{limit}\PY{p}{]}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} This method combines sortDictionaryByValues() and limitNumDictionaryElements()}
+\PY{k}{def} \PY{n+nf}{topSortedDict}\PY{p}{(}\PY{n}{d}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{ascending}\PY{p}{:} \PY{n+nb}{bool} \PY{o}{=} \PY{k+kc}{True}\PY{p}{,} \PY{n}{limit}\PY{p}{:} \PY{n+nb}{int} \PY{o}{=} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} validate the input `d` is type dictionary}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n+nb}{dict}\PY{p}{)}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{TypeError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{`d` must be type `dict`.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{return} \PY{n}{limitNumDictionaryElements}\PY{p}{(}\PY{n}{sortDictionaryByValues}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n}{ascending}\PY{p}{)}\PY{p}{,} \PY{n}{limit}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} converts a dictionary to a sorted list where each}
+\PY{c+c1}{\PYZsh{} elements of the list is a pair of the key\PYZhy{}values}
+\PY{c+c1}{\PYZsh{} from the provided dictionary}
+\PY{k}{def} \PY{n+nf}{convertDictToSortedList}\PY{p}{(}\PY{n}{d}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{d}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{item}\PY{p}{:} \PY{n}{item}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{reverse}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{points-graph-visualization}{%
+\subsection*{1. (5 points) Graph
+Visualization}\label{points-graph-visualization}}
+
+    Produce a visualization of the graph (or graph sample that you used).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw\PYZus{}networkx}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{with\PYZus{}labels}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-02_files/project-02_43_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{points-top-10-highest-degree-nodes}{%
+\subsection*{2. (3 points) Top 10 Highest Degree
+Nodes}\label{points-top-10-highest-degree-nodes}}
+
+    Find the 10 nodes with the highest degree.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{verticies\PYZus{}degrees\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} calculate the degree for each vertex}
+\PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{list}\PY{p}{(}\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{)}\PY{p}{:}
+    \PY{n}{verticies\PYZus{}degrees\PYZus{}dict}\PY{p}{[}\PY{n}{v}\PY{p}{]} \PY{o}{=} \PY{n}{vertexDegree}\PY{p}{(}\PY{n}{edges}\PY{p}{,} \PY{n}{v}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} get the top 10 highest values}
+\PY{n}{top\PYZus{}10\PYZus{}highest\PYZus{}degree} \PY{o}{=} \PY{n}{topSortedDict}\PY{p}{(}\PY{n}{verticies\PYZus{}degrees\PYZus{}dict}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 10 nodes with the highest degree}
+\PY{n+nb}{list}\PY{p}{(}\PY{n}{top\PYZus{}10\PYZus{}highest\PYZus{}degree}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[107, 1684, 1912, 3437, 0, 2543, 2347, 1888, 1800, 1663]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} top 10 nodes with the highest degree \PYZhy{} (node, degree)}
+\PY{n}{convertDictToSortedList}\PY{p}{(}\PY{n}{top\PYZus{}10\PYZus{}highest\PYZus{}degree}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[(107, 1045),
+ (1684, 792),
+ (1912, 755),
+ (3437, 547),
+ (0, 347),
+ (2543, 294),
+ (2347, 291),
+ (1888, 254),
+ (1800, 245),
+ (1663, 235)]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{points-top-10-highest-betweenness-centrality}{%
+\subsection*{3. (3 points) Top 10 Highest Betweenness
+Centrality}\label{points-top-10-highest-betweenness-centrality}}
+
+    Find the 10 nodes with the highest betweenness centrality.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{topSortedDict}\PY{p}{(}\PY{n}{nx}\PY{o}{.}\PY{n}{betweenness\PYZus{}centrality}\PY{p}{(}\PY{n}{G}\PY{p}{,} \PY{n}{normalized}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\{0: 1192496.1130793944,
+ 58: 687594.983374667,
+ 107: 3916560.144440749,
+ 428: 524164.06777575763,
+ 567: 784996.9055941283,
+ 698: 940024.2464822,
+ 1085: 1214577.7583604807,
+ 1684: 2753286.686908284,
+ 1912: 1868918.212256787,
+ 3437: 1924506.1515714952\}
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{points-top-10-highest-clustering-coefficient}{%
+\subsection*{4. (3 points) Top 10 Highest Clustering
+Coefficient}\label{points-top-10-highest-clustering-coefficient}}
+
+    Find the 10 nodes with the highest clustering coefficient. If there are
+ties, choose 10 to report and explain how the 10 were chosen.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{verticies\PYZus{}clustering\PYZus{}coefficient\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} calculate the clustering coefficient for each vertex}
+\PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{list}\PY{p}{(}\PY{n}{G}\PY{o}{.}\PY{n}{nodes}\PY{p}{)}\PY{p}{:}
+    \PY{n}{verticies\PYZus{}clustering\PYZus{}coefficient\PYZus{}dict}\PY{p}{[}\PY{n}{v}\PY{p}{]} \PY{o}{=} \PY{n}{vertexClusteringCoefficient}\PY{p}{(}\PY{n}{edges}\PY{p}{,} \PY{n}{v}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} get the top 10 highest values}
+\PY{n}{top\PYZus{}10\PYZus{}highest\PYZus{}clustering\PYZus{}coefficient} \PY{o}{=} \PY{n}{topSortedDict}\PY{p}{(}\PY{n}{verticies\PYZus{}clustering\PYZus{}coefficient\PYZus{}dict}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 10 nodes with the greatest clustering coefficient}
+\PY{n+nb}{list}\PY{p}{(}\PY{n}{top\PYZus{}10\PYZus{}highest\PYZus{}clustering\PYZus{}coefficient}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[32, 33, 35, 42, 44, 46, 47, 52, 63, 70]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} top 10 nodes with the clustering coefficient \PYZhy{} (node, degree)}
+\PY{n}{convertDictToSortedList}\PY{p}{(}\PY{n}{top\PYZus{}10\PYZus{}highest\PYZus{}clustering\PYZus{}coefficient}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[(32, 1.0),
+ (33, 1.0),
+ (35, 1.0),
+ (42, 1.0),
+ (44, 1.0),
+ (46, 1.0),
+ (47, 1.0),
+ (52, 1.0),
+ (63, 1.0),
+ (70, 1.0)]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{points-top-10-highest-prestige-centrality}{%
+\subsection*{5. (3 points) Top 10 Highest Prestige
+Centrality}\label{points-top-10-highest-prestige-centrality}}
+
+    Find the top 10 nodes as ranked by prestige centrality (eigenvector
+centrality in networkx).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} prestige centrality}
+\PY{n}{eigenvector\PYZus{}centrality} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{eigenvector\PYZus{}centrality}\PY{p}{(}\PY{n}{G}\PY{p}{)}
+\PY{n}{topSortedDict}\PY{p}{(}\PY{n}{eigenvector\PYZus{}centrality}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\{1912: 0.09540696149067629,
+ 1993: 0.0835324284081597,
+ 2078: 0.08413617041724979,
+ 2123: 0.08367141238206226,
+ 2142: 0.08419311897991796,
+ 2206: 0.08605239270584343,
+ 2218: 0.08415573568055032,
+ 2233: 0.08517340912756598,
+ 2266: 0.08698327767886553,
+ 2464: 0.08427877475676092\}
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{points-top-10-highest-ranked-by-pagerank}{%
+\subsection*{6. (3 points) Top 10 Highest Ranked by
+Pagerank}\label{points-top-10-highest-ranked-by-pagerank}}
+
+    Find the top 10 nodes as ranked by Pagerank.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{topSortedDict}\PY{p}{(}\PY{n}{nx}\PY{o}{.}\PY{n}{pagerank}\PY{p}{(}\PY{n}{G}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\{0: 0.006289602618466542,
+ 107: 0.006936420955866117,
+ 348: 0.002348096972780577,
+ 414: 0.001800299047070226,
+ 686: 0.002219359259800019,
+ 698: 0.0013171153138368812,
+ 1684: 0.006367162138306824,
+ 1912: 0.003876971600884498,
+ 3437: 0.0076145868447496,
+ 3980: 0.0021703235790099928\}
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{points-commet-on-diff.-and-sim.}{%
+\subsection*{7. (3 points) Commet on Diff. and
+Sim.}\label{points-commet-on-diff.-and-sim.}}
+
+    Comment on the differences and similarities in questions Part 3 1-6. Are
+the highly ranked nodes mostly the same? Do you notice significant
+differences in the rankings? Why do you think this is the case?
+
+    The highest degree a node had was 1045 and that was far from node 107.
+Node 107 also had a very high betweenness centrality which is expected
+as it has a large sum of paths leading to and from it. Node 107 was also
+seen to have a large PageRank value. This was also expected since a node
+that is pointed to repeatedly will have a higher PageRank and this
+logically follows that a node with a high degree will have lots of other
+nodes pointing to it. However, this node did not have a significant
+clustering coefficient or a high Prestige centrality. Additionally, Node
+1912 had a top 10 rank for PageRank, Betweenness centrality, and
+Prestige centrality. This shows that there are multiple different nodes
+that could have a perceived ``weight'' to them and should be considered
+important. It is important to note that no node that ranked highly in
+the clustering coefficient ranked highly in any other category so it
+could be assumed that those nodes are very highly clustered but may not
+be highly clustered with the rest of the graph.
+
+    \hypertarget{tips-and-acknowledgements}{%
+\section*{Tips and Acknowledgements}\label{tips-and-acknowledgements}}
+
+Make sure to submit your answer as a PDF on Gradscope and Brightspace.
+Make sure to show your work. Include any code snippets you used to
+generate an answer, using comments in the code to clearly indicate which
+problem corresponds to which code.
+
+\textbf{Acknowledgements}: Project adapted from assignments of Veronika
+Strnadova-Neeley.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
