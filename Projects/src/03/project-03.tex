@@ -1,0 +1,1497 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+
+
+
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{project-03}
+
+
+
+
+
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+
+
+
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+
+
+\begin{document}
+
+    \maketitle
+
+
+
+
+    River Kelly
+
+Kyler Gappa
+
+CSCI-347
+
+Project 03: Dimensinality Reduction and Clustering
+
+    This project may be completed individually or with group of up to size
+three. Turn in the code and written responses in both Brightspace and
+Gradescope.
+
+Choose a data set that you are interested in from the UCI Machine
+Learning Repository that has at least five numerical attributes, and
+that you believe may contain clusters. Only use the numerical attributes
+for this project. Note: if you are planning to complete the extra credit
+portion of this project, you will need to use a data set that has class
+labels (ground truth cluster labels), i.e., a classification data set,
+in order to compute the accuracy of the clustering. If you would like to
+use a data set from a different source, please discuss this with me.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{decomposition} \PY{k+kn}{import} \PY{n}{PCA}
+\PY{k+kn}{import} \PY{n+nn}{random}
+\PY{k+kn}{import} \PY{n+nn}{urllib}\PY{n+nn}{.}\PY{n+nn}{request}
+\PY{k+kn}{import} \PY{n+nn}{io}
+
+\PY{c+c1}{\PYZsh{} plt.rcParams[\PYZdq{}figure.figsize\PYZdq{}] = (20,20)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{part-1-think-about-the-data}{%
+\section*{Part 1: Think about the
+data}\label{part-1-think-about-the-data}}
+
+    This data is interesting because it takes a unique approach to language
+analysis. An understanding of writing could help us recognise and
+decipher currently unreadable text. There are six numerical and zero
+categorical attributes. The repository says that there are no missing
+attributes in the dataset so no extra techniques will be used unless
+missing values are found. we expect that there will be a few clusters
+due to a few different reasons. There is a chance for clusters for each
+number (i.e.~all 4's will form a cluster) and a chance for clusters of
+every number from people that write similarly. If clusters exist then we
+can use the range of values that fit within the cluster to help identify
+similar letters in the future. We expect for there to be four to ten
+clusters as there a few numbers that may have similar shapes or may have
+consistent shapes that are mathmatically similar. We expect there to be
+some clusters that are differing sizes as there are some shapes that
+more numbers fall into and that should result in a larger cluster
+(i.e.~6, 8, 9 vs 1, 7).
+
+    \hypertarget{part-2-write-python-code-for-clustering}{%
+\section*{Part 2: Write Python code for
+clustering}\label{part-2-write-python-code-for-clustering}}
+
+    Write the following functions in Python. You may use scikit-learn or
+other packages to check the correctness of your implementation, but you
+may not use any existing clustering algorithm implementation in your
+code.
+
+    \hypertarget{points-k-means-clustering-algorithm}{%
+\subsection*{\texorpdfstring{1. (10 points) \emph{k}-means Clustering
+Algorithm}{1. (10 points) k-means Clustering Algorithm}}\label{points-k-means-clustering-algorithm}}
+
+    A function that implements the \(k\)-means clustering algorithm. The
+function should take a data matrix, a number of clusters \(k\), and a
+convergence parameter \(\epsilon\), as input, and return the
+representatives (means) as well as the clusters found using \(k\)-means.
+If the distance is the same between a point and more than one
+representative (mean), then assign the point to the mean corresponding
+to the cluster with the lowest index.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{kMeanClustering}\PY{p}{(}\PY{n}{m}\PY{p}{,} \PY{n}{k\PYZus{}cluster}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,} \PY{n}{convergence} \PY{o}{=} \PY{l+m+mf}{0.0}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} var: points\PYZus{}dict}
+    \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+    \PY{c+c1}{\PYZsh{} disctionary of points (x, y) from the data}
+    \PY{n}{points\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} populate points\PYZus{}dict}
+    \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{point\PYZus{}data} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{:}
+        \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{index}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{point\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{point\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} sort the points\PYZus{}dict}
+    \PY{n}{points\PYZus{}dict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{k}\PY{p}{:} \PY{n}{v} \PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{points\PYZus{}dict}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{item}\PY{p}{:} \PY{n}{item}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+    \PY{c+c1}{\PYZsh{} var: clusters}
+    \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+    \PY{c+c1}{\PYZsh{} dictionary of clusters data}
+    \PY{n}{clusters} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} init\PYZus{}points\PYZus{}indices}
+    \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+    \PY{c+c1}{\PYZsh{} list to help ensure that each cluster has a unique randomly selected point}
+    \PY{n}{init\PYZus{}points\PYZus{}indices} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} initialize k\PYZus{}cluaster}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{k\PYZus{}cluster}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} select random point for cluser}
+        \PY{n}{init\PYZus{}point\PYZus{}index} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} ensure that the random point for the cluster is unique}
+        \PY{c+c1}{\PYZsh{} and has not yet been used}
+        \PY{k}{while} \PY{n}{init\PYZus{}point\PYZus{}index} \PY{o+ow}{in} \PY{n}{init\PYZus{}points\PYZus{}indices}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} this point has been used, generate another}
+            \PY{n}{init\PYZus{}point\PYZus{}index} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} keep track of used points}
+        \PY{n}{init\PYZus{}points\PYZus{}indices}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{init\PYZus{}point\PYZus{}index}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} get the point from the points\PYZus{}dict based on its randomly choosen}
+        \PY{c+c1}{\PYZsh{} index}
+        \PY{n}{init\PYZus{}point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{init\PYZus{}point\PYZus{}index}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} make the cluster data and initialize it in the clusters dictionary}
+        \PY{n}{clusters}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{(}\PY{n}{init\PYZus{}point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{init\PYZus{}point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+
+    \PY{c+c1}{\PYZsh{} Now the k\PYZus{}clusters have been initialize, its time to iterate through each}
+    \PY{c+c1}{\PYZsh{} of the points in the data and add it to the cluster where to distance from}
+    \PY{c+c1}{\PYZsh{} the point to the mean of the cluster is the smallest amoung all clusters}
+
+    \PY{n}{cluster\PYZus{}iters} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} list of clusters data for each iteration}
+    \PY{n}{count\PYZus{}iter} \PY{o}{=} \PY{l+m+mi}{0} \PY{c+c1}{\PYZsh{} counter for the number of iterations computed}
+    \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+        \PY{n}{count\PYZus{}iter} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1} \PY{c+c1}{\PYZsh{} increase counter}
+
+        \PY{c+c1}{\PYZsh{} this is only a safety precaution, the stopping of the iterations}
+        \PY{c+c1}{\PYZsh{} should be terminated based on the convergence from the previous}
+        \PY{c+c1}{\PYZsh{} and last iteration, see code below}
+        \PY{k}{if} \PY{n}{count\PYZus{}iter} \PY{o}{\PYZgt{}} \PY{l+m+mi}{10000}\PY{p}{:} \PY{k}{break}
+
+        \PY{c+c1}{\PYZsh{} add points to clusters based on the distance the point is from the}
+        \PY{c+c1}{\PYZsh{} mean of the cluster}
+        \PY{k}{for} \PY{p}{(}\PY{n}{point\PYZus{}index}\PY{p}{,} \PY{n}{point}\PY{p}{)} \PY{o+ow}{in} \PY{n}{points\PYZus{}dict}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} iterate over points}
+            \PY{c+c1}{\PYZsh{} this variable (cluster\PYZus{}to\PYZus{}point\PYZus{}distances\PYZus{}dict) helps in finding}
+            \PY{c+c1}{\PYZsh{} the cluster mean closest to the point being examined}
+            \PY{n}{cluster\PYZus{}to\PYZus{}point\PYZus{}distances\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+
+            \PY{c+c1}{\PYZsh{} iterate over each cluster}
+            \PY{k}{for} \PY{p}{(}\PY{n}{cluster\PYZus{}index}\PY{p}{,} \PY{n}{cluster}\PY{p}{)} \PY{o+ow}{in} \PY{n}{clusters}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} compute the distance between the current point the cluster mean}
+                \PY{n}{distance\PYZus{}x} \PY{o}{=} \PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                \PY{n}{distance\PYZus{}y} \PY{o}{=} \PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+                \PY{n}{distance} \PY{o}{=} \PY{p}{(} \PY{p}{(}\PY{n}{distance\PYZus{}x} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{p}{(}\PY{n}{distance\PYZus{}y} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)} \PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} save this distance}
+                \PY{n}{cluster\PYZus{}to\PYZus{}point\PYZus{}distances\PYZus{}dict}\PY{p}{[}\PY{n}{cluster\PYZus{}index}\PY{p}{]} \PY{o}{=} \PY{n}{distance}
+            \PY{c+c1}{\PYZsh{} sort distances from point to each cluster}
+            \PY{n}{cluster\PYZus{}to\PYZus{}point\PYZus{}distances\PYZus{}dict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{k}\PY{p}{:} \PY{n}{v} \PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{cluster\PYZus{}to\PYZus{}point\PYZus{}distances\PYZus{}dict}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{item}\PY{p}{:} \PY{n}{item}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{\PYZcb{}}
+            \PY{c+c1}{\PYZsh{} get the cluster index that has the smallest distance between}
+            \PY{c+c1}{\PYZsh{} its mean and the current point}
+            \PY{n}{closest\PYZus{}cluster\PYZus{}index} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{cluster\PYZus{}to\PYZus{}point\PYZus{}distances\PYZus{}dict}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{c+c1}{\PYZsh{} add point to closest cluster}
+            \PY{n}{clusters}\PY{p}{[}\PY{n}{closest\PYZus{}cluster\PYZus{}index}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{point\PYZus{}index}\PY{p}{)}
+
+            \PY{c+c1}{\PYZsh{} update cluster mean (i.e. we just added a new point to this}
+            \PY{c+c1}{\PYZsh{} cluster so we need to update the mean value for the cluster)}
+            \PY{n}{x\PYZus{}sum} \PY{o}{=} \PY{n}{y\PYZus{}sum} \PY{o}{=} \PY{l+m+mi}{0}
+            \PY{k}{for} \PY{n}{cluster\PYZus{}point\PYZus{}index} \PY{o+ow}{in} \PY{n}{clusters}\PY{p}{[}\PY{n}{closest\PYZus{}cluster\PYZus{}index}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+                \PY{n}{cluster\PYZus{}point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{cluster\PYZus{}point\PYZus{}index}\PY{p}{]}
+                \PY{n}{x\PYZus{}sum} \PY{o}{+}\PY{o}{=} \PY{n}{cluster\PYZus{}point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                \PY{n}{y\PYZus{}sum} \PY{o}{+}\PY{o}{=} \PY{n}{cluster\PYZus{}point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{n}{num\PYZus{}cluster\PYZus{}points} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{clusters}\PY{p}{[}\PY{n}{closest\PYZus{}cluster\PYZus{}index}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+            \PY{n}{x\PYZus{}mean} \PY{o}{=} \PY{n}{x\PYZus{}sum} \PY{o}{/} \PY{n}{num\PYZus{}cluster\PYZus{}points}
+            \PY{n}{y\PYZus{}mean} \PY{o}{=} \PY{n}{y\PYZus{}sum} \PY{o}{/} \PY{n}{num\PYZus{}cluster\PYZus{}points}
+            \PY{c+c1}{\PYZsh{} set new mean value}
+            \PY{n}{clusters}\PY{p}{[}\PY{n}{closest\PYZus{}cluster\PYZus{}index}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{x\PYZus{}mean}\PY{p}{,} \PY{n}{y\PYZus{}mean}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} calculate the total distance of points from the mean in each cluster}
+        \PY{n}{total\PYZus{}distance\PYZus{}sum} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{k}{for} \PY{p}{(}\PY{n}{cluster\PYZus{}index}\PY{p}{,} \PY{n}{cluster}\PY{p}{)} \PY{o+ow}{in} \PY{n}{clusters}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{distance} \PY{o}{=} \PY{l+m+mi}{0}
+            \PY{k}{for} \PY{n}{point\PYZus{}index} \PY{o+ow}{in} \PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+                \PY{n}{point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{point\PYZus{}index}\PY{p}{]}
+                \PY{n}{distance} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{+}\PY{p}{(}\PY{p}{(}\PY{n}{point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{clusters}\PY{p}{[}\PY{n}{cluster\PYZus{}index}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist\PYZus{}sum}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{distance}
+            \PY{n}{total\PYZus{}distance\PYZus{}sum} \PY{o}{+}\PY{o}{=} \PY{n}{distance}
+
+        \PY{c+c1}{\PYZsh{} save this iteration of clustering}
+        \PY{n}{cluster\PYZus{}iters}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{clusters}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{clusters}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{total\PYZus{}distance\PYZus{}sum}
+        \PY{p}{\PYZcb{}}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} check if clustering iteration has converged from the last iteration}
+        \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cluster\PYZus{}iters}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{:}
+            \PY{n}{last\PYZus{}cluster\PYZus{}dist} \PY{o}{=} \PY{n}{cluster\PYZus{}iters}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{dist\PYZus{}diff} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{total\PYZus{}distance\PYZus{}sum} \PY{o}{\PYZhy{}} \PY{n}{last\PYZus{}cluster\PYZus{}dist}\PY{p}{)}
+            \PY{k}{if} \PY{n}{dist\PYZus{}diff} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{convergence}\PY{p}{:}
+                \PY{k}{break}
+
+        \PY{c+c1}{\PYZsh{} Since the loop was not terminated, we need to prepare for the next}
+        \PY{c+c1}{\PYZsh{} iteration. Therefor, lets clean the clusters (i.e. remove the }
+        \PY{c+c1}{\PYZsh{} points assign from this iteration but keep the mean)}
+        \PY{c+c1}{\PYZsh{} remove cluster points for next iteration}
+        \PY{n}{new\PYZus{}clusters} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+        \PY{k}{for} \PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{cluster}\PY{p}{)} \PY{o+ow}{in} \PY{n}{clusters}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{new\PYZus{}clusters}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{(}\PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+            \PY{p}{\PYZcb{}}
+        \PY{n}{clusters} \PY{o}{=} \PY{n}{new\PYZus{}clusters}
+        \PY{c+c1}{\PYZsh{} END OF clustering loop}
+
+    \PY{c+c1}{\PYZsh{} get the last clusters iteration}
+    \PY{n}{clusters} \PY{o}{=} \PY{n}{cluster\PYZus{}iters}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{clusters}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+    \PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n}{D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{k}{for} \PY{n}{cluster\PYZus{}index} \PY{o+ow}{in} \PY{n}{clusters}\PY{p}{:}
+        \PY{n}{cluster} \PY{o}{=} \PY{n}{clusters}\PY{p}{[}\PY{n}{cluster\PYZus{}index}\PY{p}{]}
+        \PY{k}{for} \PY{n}{point} \PY{o+ow}{in} \PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+            \PY{n}{pred\PYZus{}labels}\PY{p}{[}\PY{n}{point}\PY{p}{]} \PY{o}{=} \PY{n}{cluster\PYZus{}index}
+
+    \PY{n}{centers} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n}{k\PYZus{}cluster}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{cluster} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{clusters}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{centers}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{pred\PYZus{}labels}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{centers}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{centers}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} get the means}
+    \PY{n}{means} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n}{k\PYZus{}cluster}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    \PY{n}{clusters\PYZus{}data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{cluster} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{clusters}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{means}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}
+        \PY{n}{cluster\PYZus{}points} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+        \PY{k}{for} \PY{n}{cluster\PYZus{}point\PYZus{}index}\PY{p}{,} \PY{n}{point\PYZus{}index} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{cluster}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{points\PYZus{}indices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+          \PY{n}{point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{point\PYZus{}index}\PY{p}{]}
+          \PY{n}{cluster\PYZus{}points}\PY{p}{[}\PY{n}{cluster\PYZus{}point\PYZus{}index}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}
+        \PY{n}{clusters\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{cluster\PYZus{}points}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{means}\PY{p}{,} \PY{n}{clusters\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{datasets} \PY{k+kn}{import} \PY{n}{make\PYZus{}blobs}
+\PY{n}{D}\PY{p}{,} \PY{n}{labels} \PY{o}{=} \PY{n}{make\PYZus{}blobs}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{centers}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{cluster\PYZus{}std}\PY{o}{=}\PY{l+m+mf}{.3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{means}\PY{p}{,} \PY{n}{clusters} \PY{o}{=} \PY{n}{kMeanClustering}\PY{p}{(}\PY{n}{D}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_10_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \hypertarget{points-dbscan-clustering-algorithm}{%
+\subsection*{2. (10 points) DBSCAN Clustering
+Algorithm}\label{points-dbscan-clustering-algorithm}}
+
+    A function that implements the DBSCAN clustering algorithm. The function
+should take a data matrix and the parameters \emph{minpts} and
+\(\epsilon\), as input, and return the clusters found using DBSCAN, and
+for each data point a label of core, border, or noise point.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{distanceBetweenPoints}\PY{p}{(}\PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{b}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{+}\PY{p}{(}\PY{p}{(}\PY{n}{a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{b}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{dbScanClustering}\PY{p}{(}\PY{n}{m}\PY{p}{,} \PY{n}{minpts}\PY{p}{,} \PY{n}{eps}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} dictionary of points (x, y) from the data}
+    \PY{n}{points\PYZus{}dict} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} populate points\PYZus{}dict}
+    \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{point\PYZus{}data} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{:}
+        \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{index}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{point\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{point\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Find the core points}
+    \PY{n}{core\PYZus{}points\PYZus{}indicies} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{point\PYZus{}a\PYZus{}index}\PY{p}{,} \PY{n}{point\PYZus{}a} \PY{o+ow}{in} \PY{n}{points\PYZus{}dict}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{n}{eps\PYZus{}close\PYZus{}points} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+        \PY{k}{for} \PY{n}{point\PYZus{}b\PYZus{}index}\PY{p}{,} \PY{n}{point\PYZus{}b} \PY{o+ow}{in} \PY{n}{points\PYZus{}dict}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{if} \PY{n}{point\PYZus{}a\PYZus{}index} \PY{o}{==} \PY{n}{point\PYZus{}b\PYZus{}index}\PY{p}{:} \PY{k}{continue}
+            \PY{n}{dist} \PY{o}{=} \PY{n}{distanceBetweenPoints}\PY{p}{(}\PY{n}{point\PYZus{}a}\PY{p}{,} \PY{n}{point\PYZus{}b}\PY{p}{)}
+            \PY{k}{if} \PY{n}{dist} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{eps}\PY{p}{:}
+                \PY{n}{eps\PYZus{}close\PYZus{}points}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{point\PYZus{}b\PYZus{}index}\PY{p}{)}
+                \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{eps\PYZus{}close\PYZus{}points}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{minpts}\PY{p}{:}
+                    \PY{k}{break}
+        \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{eps\PYZus{}close\PYZus{}points}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{minpts}\PY{p}{:}
+            \PY{n}{core\PYZus{}points\PYZus{}indicies}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{point\PYZus{}a\PYZus{}index}\PY{p}{)}
+
+
+    \PY{c+c1}{\PYZsh{} add core points to clusters}
+    \PY{n}{clusters} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{n}{current\PYZus{}cluster} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{n}{used\PYZus{}core\PYZus{}points} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{n}{active\PYZus{}core\PYZus{}points} \PY{o}{=} \PY{n}{core\PYZus{}points\PYZus{}indicies}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+    \PY{n}{current\PYZus{}cluster}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{active\PYZus{}core\PYZus{}points}\PY{o}{.}\PY{n}{pop}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+    \PY{n}{added\PYZus{}new\PYZus{}points} \PY{o}{=} \PY{k+kc}{True}
+    \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+
+        \PY{k}{if} \PY{n}{added\PYZus{}new\PYZus{}points} \PY{o+ow}{is} \PY{k+kc}{False}\PY{p}{:}
+            \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{active\PYZus{}core\PYZus{}points}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{:}
+                \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{current\PYZus{}cluster}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+                    \PY{n}{clusters}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{current\PYZus{}cluster}\PY{p}{[}\PY{p}{:}\PY{p}{]}\PY{p}{)}
+                \PY{k}{break}
+            \PY{n}{clusters}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{current\PYZus{}cluster}\PY{p}{[}\PY{p}{:}\PY{p}{]}\PY{p}{)}
+            \PY{n}{current\PYZus{}cluster} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+            \PY{n}{current\PYZus{}cluster}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{active\PYZus{}core\PYZus{}points}\PY{o}{.}\PY{n}{pop}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+        \PY{n}{added\PYZus{}new\PYZus{}points} \PY{o}{=} \PY{k+kc}{False}
+
+        \PY{k}{for} \PY{n}{cluster\PYZus{}core\PYZus{}p\PYZus{}index} \PY{o+ow}{in} \PY{n}{current\PYZus{}cluster}\PY{p}{:}
+            \PY{n}{cluster\PYZus{}point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{cluster\PYZus{}core\PYZus{}p\PYZus{}index}\PY{p}{]}
+            \PY{n}{active\PYZus{}core\PYZus{}points\PYZus{}temp} \PY{o}{=} \PY{n}{active\PYZus{}core\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+
+            \PY{k}{for} \PY{n}{core\PYZus{}point\PYZus{}index} \PY{o+ow}{in} \PY{n}{active\PYZus{}core\PYZus{}points\PYZus{}temp}\PY{p}{:}
+                \PY{k}{if} \PY{n}{core\PYZus{}point\PYZus{}index} \PY{o+ow}{in} \PY{n}{current\PYZus{}cluster}\PY{p}{:} \PY{k}{continue}
+                \PY{n}{core\PYZus{}point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{core\PYZus{}point\PYZus{}index}\PY{p}{]}
+
+                \PY{n}{dist} \PY{o}{=} \PY{n}{distanceBetweenPoints}\PY{p}{(}\PY{n}{cluster\PYZus{}point}\PY{p}{,} \PY{n}{core\PYZus{}point}\PY{p}{)}
+                \PY{k}{if} \PY{n}{dist} \PY{o}{\PYZgt{}} \PY{n}{eps}\PY{p}{:} \PY{k}{continue}
+                \PY{n}{added\PYZus{}new\PYZus{}points} \PY{o}{=} \PY{k+kc}{True}
+                \PY{n}{current\PYZus{}cluster}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{core\PYZus{}point\PYZus{}index}\PY{p}{)}
+                \PY{n}{used\PYZus{}core\PYZus{}points}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{core\PYZus{}point\PYZus{}index}\PY{p}{)}
+                \PY{n}{active\PYZus{}core\PYZus{}points\PYZus{}temp}\PY{o}{.}\PY{n}{remove}\PY{p}{(}\PY{n}{core\PYZus{}point\PYZus{}index}\PY{p}{)}
+
+
+            \PY{n}{active\PYZus{}core\PYZus{}points} \PY{o}{=} \PY{n}{active\PYZus{}core\PYZus{}points\PYZus{}temp}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+            \PY{c+c1}{\PYZsh{} active\PYZus{}core\PYZus{}points = active\PYZus{}core\PYZus{}points\PYZus{}temp[:]}
+            \PY{k}{if} \PY{n}{added\PYZus{}new\PYZus{}points}\PY{p}{:} \PY{k}{break}
+
+
+
+    \PY{n}{remaining\PYZus{}points} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{points\PYZus{}dict}\PY{p}{:}
+        \PY{k}{if} \PY{n}{p} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{core\PYZus{}points\PYZus{}indicies}\PY{p}{:}
+            \PY{n}{remaining\PYZus{}points}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{p}\PY{p}{)}
+
+    \PY{n}{border\PYZus{}points} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{point\PYZus{}index} \PY{o+ow}{in} \PY{n}{remaining\PYZus{}points}\PY{p}{:}
+        \PY{n}{point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{point\PYZus{}index}\PY{p}{]}
+
+        \PY{k}{for} \PY{n}{cluster\PYZus{}index}\PY{p}{,} \PY{n}{cluster} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{clusters}\PY{p}{)}\PY{p}{:}
+            \PY{n}{temp\PYZus{}cluster} \PY{o}{=} \PY{n}{cluster}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+            \PY{k}{for} \PY{n}{cluster\PYZus{}p\PYZus{}index} \PY{o+ow}{in} \PY{n}{cluster}\PY{p}{:}
+                \PY{n}{cluster\PYZus{}point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{cluster\PYZus{}p\PYZus{}index}\PY{p}{]}
+
+                \PY{n}{dist} \PY{o}{=} \PY{n}{distanceBetweenPoints}\PY{p}{(}\PY{n}{cluster\PYZus{}point}\PY{p}{,} \PY{n}{point}\PY{p}{)}
+
+                \PY{k}{if} \PY{n}{dist} \PY{o}{\PYZgt{}} \PY{n}{eps}\PY{p}{:} \PY{k}{continue}
+
+                \PY{n}{temp\PYZus{}cluster}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{point\PYZus{}index}\PY{p}{)}
+                \PY{n}{border\PYZus{}points}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{point\PYZus{}index}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} remaining\PYZus{}points.remove(point\PYZus{}index)}
+
+            \PY{n}{clusters}\PY{p}{[}\PY{n}{cluster\PYZus{}index}\PY{p}{]} \PY{o}{=} \PY{n}{temp\PYZus{}cluster}
+
+        \PY{c+c1}{\PYZsh{} if added\PYZus{}new\PYZus{}points is True: break}
+    \PY{c+c1}{\PYZsh{} print(current\PYZus{}cluster)}
+    \PY{c+c1}{\PYZsh{} print(active\PYZus{}core\PYZus{}points\PYZus{}temp)}
+    \PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n}{m}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{core\PYZus{}points\PYZus{}indicies}\PY{p}{:}
+        \PY{n}{pred\PYZus{}labels}\PY{p}{[}\PY{n}{p}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{2}
+    \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{border\PYZus{}points}\PY{p}{:}
+        \PY{n}{pred\PYZus{}labels}\PY{p}{[}\PY{n}{p}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+
+    \PY{n}{core\PYZus{}points\PYZus{}data} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{core\PYZus{}points\PYZus{}indicies}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{p} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{core\PYZus{}points\PYZus{}indicies}\PY{p}{)}\PY{p}{:}
+        \PY{n}{point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{p}\PY{p}{]}
+        \PY{n}{core\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}
+
+
+    \PY{n}{border\PYZus{}points\PYZus{}data} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{border\PYZus{}points}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{p} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{border\PYZus{}points}\PY{p}{)}\PY{p}{:}
+        \PY{n}{point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{p}\PY{p}{]}
+        \PY{n}{border\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}
+
+    \PY{n}{noise\PYZus{}points} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{points\PYZus{}dict}\PY{p}{:}
+        \PY{k}{if} \PY{n}{p} \PY{o+ow}{in} \PY{n}{core\PYZus{}points\PYZus{}indicies}\PY{p}{:} \PY{k}{continue}
+        \PY{k}{if} \PY{n}{p} \PY{o+ow}{in} \PY{n}{border\PYZus{}points}\PY{p}{:} \PY{k}{continue}
+        \PY{n}{noise\PYZus{}points}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{p}\PY{p}{)}
+
+    \PY{n}{noise\PYZus{}points\PYZus{}data} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{noise\PYZus{}points}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{p} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{noise\PYZus{}points}\PY{p}{)}\PY{p}{:}
+        \PY{n}{point} \PY{o}{=} \PY{n}{points\PYZus{}dict}\PY{p}{[}\PY{n}{p}\PY{p}{]}
+        \PY{n}{noise\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{point}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{point}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{core\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{core\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{border\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{border\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{noise\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{noise\PYZus{}points\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} plt.scatter(m[:,0], m[:,1], c=pred\PYZus{}labels)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Core}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Border}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Noise}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} pred\PYZus{}labels = [0] * m.shape[0]}
+    \PY{c+c1}{\PYZsh{} for i, c in enumerate(clusters):}
+    \PY{c+c1}{\PYZsh{}     for p in c:}
+    \PY{c+c1}{\PYZsh{}         pred\PYZus{}labels[p] = i+1}
+    \PY{c+c1}{\PYZsh{} \PYZsh{}     \PYZsh{} print(i, c)}
+    \PY{c+c1}{\PYZsh{} plt.scatter(m[:,0], m[:,1], c=pred\PYZus{}labels)}
+    \PY{c+c1}{\PYZsh{} plt.show()}
+
+    \PY{c+c1}{\PYZsh{} print(core\PYZus{}points\PYZus{}indicies)}
+
+
+\PY{n}{dbScanClustering}\PY{p}{(}\PY{n}{D}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_13_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \hypertarget{part-3-analyze-your-data}{%
+\section*{Part 3: Analyze your data}\label{part-3-analyze-your-data}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{google}\PY{n+nn}{.}\PY{n+nn}{colab} \PY{k+kn}{import} \PY{n}{drive}
+\PY{n}{drive}\PY{o}{.}\PY{n}{mount}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/content/drive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Mounted at /content/drive
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{readFileData}\PY{p}{(}\PY{n}{filename}\PY{p}{)}\PY{p}{:}
+    \PY{n}{file} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/content/drive/My Drive/347\PYZhy{}Data\PYZhy{}Mining/Project\PYZhy{}03/mfeat/}\PY{l+s+si}{\PYZob{}}\PY{n}{filename}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{lines} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{file}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+        \PY{n}{lines} \PY{o}{=} \PY{n}{f}\PY{o}{.}\PY{n}{readlines}\PY{p}{(}\PY{p}{)}
+    \PY{n}{data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n}{lines}\PY{p}{:}
+        \PY{n}{line} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{line}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{:} \PY{k}{continue}
+        \PY{n}{line\PYZus{}data} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{clean\PYZus{}data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+        \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{val} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{line\PYZus{}data}\PY{p}{)}\PY{p}{:}
+            \PY{n}{val} \PY{o}{=} \PY{n}{val}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}
+            \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{val}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{:} \PY{k}{continue}
+            \PY{n}{val} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+            \PY{n}{clean\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+        \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{clean\PYZus{}data}\PY{p}{)}
+    \PY{k}{return} \PY{n}{data}
+
+\PY{n}{DATA\PYZus{}FILES\PYZus{}NAMES} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mfeat\PYZhy{}fou}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mfeat\PYZhy{}fac}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mfeat\PYZhy{}kar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mfeat\PYZhy{}pix}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mfeat\PYZhy{}zer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mfeat\PYZhy{}mor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+\PY{p}{]}
+\PY{n}{DATA\PYZus{}FILES\PYZus{}DATA} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{filename} \PY{o+ow}{in} \PY{n}{DATA\PYZus{}FILES\PYZus{}NAMES}\PY{p}{:}
+    \PY{n}{DATA\PYZus{}FILES\PYZus{}DATA}\PY{p}{[}\PY{n}{filename}\PY{p}{]} \PY{o}{=} \PY{n}{readFileData}\PY{p}{(}\PY{n}{filename}\PY{p}{)}
+
+\PY{n}{DATA} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{file\PYZus{}data} \PY{o+ow}{in} \PY{n}{DATA\PYZus{}FILES\PYZus{}DATA}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{line\PYZus{}num}\PY{p}{,} \PY{n}{line\PYZus{}data\PYZus{}list} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{file\PYZus{}data}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{line\PYZus{}num} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1999}\PY{p}{:} \PY{k}{continue}
+        \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{DATA}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{line\PYZus{}num}\PY{p}{:} \PY{n}{DATA}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{p}{]}\PY{p}{)}
+        \PY{k}{for} \PY{n}{line\PYZus{}data\PYZus{}item} \PY{o+ow}{in} \PY{n}{line\PYZus{}data\PYZus{}list}\PY{p}{:}
+            \PY{n}{DATA}\PY{p}{[}\PY{n}{line\PYZus{}num}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{line\PYZus{}data\PYZus{}item}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{lines\PYZus{}rows} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{DATA}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{lines\PYZus{}rows}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{:}
+        \PY{n}{DATA}\PY{o}{.}\PY{n}{pop}\PY{p}{(}\PY{n}{i}\PY{p}{)}
+
+\PY{n}{D} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{2000}\PY{p}{,} \PY{l+m+mi}{649}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{lines\PYZus{}rows} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{DATA}\PY{p}{)}\PY{p}{:}
+    \PY{n}{D}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{lines\PYZus{}rows}\PY{p}{)}
+\PY{n}{D}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[6.58817200e-02, 1.97311690e-01, 1.03825630e-01, {\ldots},
+        1.33150861e+02, 1.31169276e+00, 1.62022178e+03],
+       [4.91421500e-02, 1.75970680e-01, 1.05514640e-01, {\ldots},
+        1.26724861e+02, 1.30274497e+00, 1.60933482e+03],
+       [3.41719200e-02, 2.27648880e-01, 1.08766360e-01, {\ldots},
+        1.31173861e+02, 1.31903101e+00, 1.56897843e+03],
+       {\ldots},
+       [3.35605960e-01, 3.18426000e-01, 2.57948220e-01, {\ldots},
+        1.34672861e+02, 1.54198735e+00, 3.76676322e+03],
+       [2.53909620e-01, 1.71202410e-01, 3.02621990e-01, {\ldots},
+        1.42926861e+02, 1.42638097e+00, 4.11832732e+03],
+       [2.71574850e-01, 1.49036810e-01, 2.32752530e-01, {\ldots},
+        1.33920861e+02, 1.56462053e+00, 3.80802132e+03]])
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{drive}\PY{o}{.}\PY{n}{flush\PYZus{}and\PYZus{}unmount}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{All changes made in this colab session should now be visible in Drive.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+All changes made in this colab session should now be visible in Drive.
+    \end{Verbatim}
+
+    \hypertarget{points}{%
+\subsection*{1. (4 points)}\label{points}}
+
+    Use sklearn's PCA implementation to linearly transform the data to two
+dimensions. Create a scatter plot of the data, with the \(x\)-axis
+corresponding to coordinates of the data along the first principal
+component, and the \(y\)-axis corresponding to coordinates of the data
+along the second principal component. Does it look like there are
+clusters in these two dimensions? If so, how many would you say there
+are?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pca\PYZus{}2\PYZus{}comps} \PY{o}{=} \PY{n}{PCA}\PY{p}{(}\PY{n}{n\PYZus{}components}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps} \PY{o}{=} \PY{n}{pca\PYZus{}2\PYZus{}comps}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{D}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first principal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{second principal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_20_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    We identified potentially 4 clusters that exist in the dataset. The
+first is a very tightly grouped area in the left side of the graph. The
+second cluster is above the primary cluster and has a much looser
+grouping. We think this may be a cluster as it has a higher desity than
+the rest of the graph but seems to be centered on a different point than
+the primary cluster. The third probable cluster is located below the
+second and to the right of the first. This cluster is less dense than
+the previous two but has a few separate groups that form in the same
+area. The last possible cluster is located in the right of the graph and
+is the least densely populated cluster. We recognise this as a possible
+cluster since it has an apparent oval shape and is in an area that has
+little other structure to it. This section is almost entirely separate
+from the other clusters
+
+    \hypertarget{points}{%
+\subsection*{2. (3 points)}\label{points}}
+
+    Use sklearn's PCA implementation to linearly transform the data, without
+specifying the number of components to use. Create a plot with \(r\),
+the number of components (i.e., dimensionality), on the \(x\)-axis, and
+\(f(r)\), the fraction of total variance captured in the first \(r\)
+principal components, on the \(y\)-axis. Based on this plot, choose a
+number of principal components to reduce the dimensionality of the data.
+Report how many principal components will be used as well as the faction
+of total variance captured using this many components.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pca} \PY{o}{=} \PY{n}{PCA}\PY{p}{(}\PY{p}{)}
+\PY{n}{pca\PYZus{}D} \PY{o}{=} \PY{n}{pca}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{D}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{covariance}\PY{p}{(}\PY{n}{v1}\PY{p}{,} \PY{n}{v2} \PY{o}{=} \PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{v2} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:} \PY{n}{v2} \PY{o}{=} \PY{n}{v1}
+    \PY{c+c1}{\PYZsh{} vector 1 mean}
+    \PY{n}{v1\PYZus{}mean} \PY{o}{=} \PY{n}{v1}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} vector 2 mean}
+    \PY{n}{v2\PYZus{}mean} \PY{o}{=} \PY{n}{v2}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} co\PYZus{}var (the covariance between v1 and v2)}
+    \PY{n}{co\PYZus{}var} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{c+c1}{\PYZsh{} loop through v1 and v2 values}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{v1}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{n}{co\PYZus{}var} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{n}{v1}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{v1\PYZus{}mean}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{v2}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{v2\PYZus{}mean}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} calculate and return the co\PYZhy{}variance between v1 and v2}
+    \PY{k}{return} \PY{p}{(}\PY{n}{co\PYZus{}var} \PY{o}{/} \PY{p}{(}\PY{n}{v1}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{get\PYZus{}variance\PYZus{}explained}\PY{p}{(}\PY{n}{evals}\PY{p}{)}\PY{p}{:}
+  \PY{n}{csum} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cumsum}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{)}
+  \PY{n}{variance\PYZus{}explained} \PY{o}{=} \PY{n}{csum} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{)}
+
+  \PY{k}{return} \PY{n}{variance\PYZus{}explained}
+
+\PY{n}{PC\PYZus{}values} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{pca}\PY{o}{.}\PY{n}{n\PYZus{}components\PYZus{}}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{PC\PYZus{}values}\PY{p}{,} \PY{n}{pca}\PY{o}{.}\PY{n}{explained\PYZus{}variance\PYZus{}ratio\PYZus{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Principal Component}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Variance Explained}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{pca}\PY{o}{.}\PY{n}{explained\PYZus{}variance\PYZus{}ratio\PYZus{}}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{pca}\PY{o}{.}\PY{n}{explained\PYZus{}variance\PYZus{}ratio\PYZus{}}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.9498650293248446
+\end{Verbatim}
+\end{tcolorbox}
+
+    We will be using 2 priciple components and this will cover 94.98\% of
+all of the variance
+
+    \hypertarget{points}{%
+\subsection*{3. (5 points)}\label{points}}
+
+    For both the original and the reduced-dimensionality data obtained using
+PCA in question 1, do the following: Experiment with a range of values
+for the number of clusters, \(k\), that you pass as input to the
+\(k\)-means function, to find clusters in the chosen data set. Use at
+least 5 different values of \(k\). For each value of \(k\), report the
+value of the objective function for that choice of \(k\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{cluster} \PY{k+kn}{import} \PY{n}{KMeans}
+\PY{c+c1}{\PYZsh{} 6 clusters}
+\PY{n}{kmeans} \PY{o}{=} \PY{n}{KMeans}\PY{p}{(}\PY{n}{n\PYZus{}clusters}\PY{o}{=}\PY{l+m+mi}{6}\PY{p}{,} \PY{n}{init}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{n}{kmeans}\PY{o}{.}\PY{n}{fit\PYZus{}predict}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{pred\PYZus{}labels}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.collections.PathCollection at 0x7f4f1f9d5dd0>
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_28_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 2 clusters}
+\PY{n}{kmeans} \PY{o}{=} \PY{n}{KMeans}\PY{p}{(}\PY{n}{n\PYZus{}clusters}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{init}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{n}{kmeans}\PY{o}{.}\PY{n}{fit\PYZus{}predict}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{pred\PYZus{}labels}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.collections.PathCollection at 0x7f4f1ee39d50>
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_29_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 4 clusters}
+\PY{n}{kmeans} \PY{o}{=} \PY{n}{KMeans}\PY{p}{(}\PY{n}{n\PYZus{}clusters}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{init}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{n}{kmeans}\PY{o}{.}\PY{n}{fit\PYZus{}predict}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{pred\PYZus{}labels}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.collections.PathCollection at 0x7f4f1f9e0250>
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_30_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 8 clusters}
+\PY{n}{kmeans} \PY{o}{=} \PY{n}{KMeans}\PY{p}{(}\PY{n}{n\PYZus{}clusters}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{,} \PY{n}{init}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{n}{kmeans}\PY{o}{.}\PY{n}{fit\PYZus{}predict}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{pred\PYZus{}labels}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.collections.PathCollection at 0x7f4f2756ea50>
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_31_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 10 clusters}
+\PY{n}{kmeans} \PY{o}{=} \PY{n}{KMeans}\PY{p}{(}\PY{n}{n\PYZus{}clusters}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{init}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{random}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{n}{kmeans}\PY{o}{.}\PY{n}{fit\PYZus{}predict}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{pred\PYZus{}labels}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.collections.PathCollection at 0x7f4f27a8c4d0>
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_32_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \hypertarget{points}{%
+\subsection*{4. (5 points)}\label{points}}
+
+    For both the original and the reduced-dimensionality data obtained using
+PCA in question 1, do the following: Experiment with a range of values
+for the \emph{minpts} and \(\epsilon\) input parameters to the DBSCAN
+function to find clusters in the chosen data set. First, keep
+\(\epsilon\) fixed and try out a range of different values for
+\emph{minpts}. Then keep \emph{minpts} fixed, and try a range of values
+for \(\epsilon\). Use at least 5 values of \(\epsilon\) and at least 5
+values of \emph{minpts}. Report the number of clusters found for each
+(\emph{minpts}, \(\epsilon\)) pair tested.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{cluster} \PY{k+kn}{import} \PY{n}{DBSCAN}
+
+\PY{k}{def} \PY{n+nf}{dbScanPlotEPS}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{75}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+  \PY{n}{dbs} \PY{o}{=} \PY{n}{DBSCAN}\PY{p}{(}\PY{n}{eps}\PY{o}{=}\PY{n}{eps}\PY{p}{,} \PY{n}{min\PYZus{}samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+  \PY{n}{pred\PYZus{}labels} \PY{o}{=} \PY{n}{dbs}\PY{o}{.}\PY{n}{fit\PYZus{}predict}\PY{p}{(}\PY{n}{data}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{pred\PYZus{}labels}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Clusters:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n+nb}{set}\PY{p}{(}\PY{n}{pred\PYZus{}labels}\PY{p}{)}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Change in EPS
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_37_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 2
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{110}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_38_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 46
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{111}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{75}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_39_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 97
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{112}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_40_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 89
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{113}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{150}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_41_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 20
+    \end{Verbatim}
+
+    Change in min-sample
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{114}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_43_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 97
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{115}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_44_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 97
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{116}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_45_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 97
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{117}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_46_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 97
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{118}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D\PYZus{}2\PYZus{}comps}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{6}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_47_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 97
+    \end{Verbatim}
+
+    Original data
+
+    change in eps
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{119}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_50_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 4
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{120}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{400}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_51_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 22
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{121}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_52_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 39
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{122}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{600}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_53_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 36
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{123}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{700}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_54_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 8
+    \end{Verbatim}
+
+    Change in min-sample
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{124}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{550}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_56_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 42
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{125}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{550}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_57_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 42
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{126}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{550}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_58_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 42
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{127}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{550}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_59_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 42
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{128}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dbScanPlotEPS}\PY{p}{(}\PY{n}{pca\PYZus{}D}\PY{p}{,} \PY{n}{eps}\PY{o}{=}\PY{l+m+mi}{550}\PY{p}{,} \PY{n}{samples}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{project-03_files/project-03_60_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Clusters: 42
+    \end{Verbatim}
+
+    \hypertarget{tips-and-acknowledgements}{%
+\section*{Tips and Acknowledgements}\label{tips-and-acknowledgements}}
+
+    Make sure to submit your answer as a PDF on Gradscope and Brightspace.
+Make sure to show your work. Include any code snippets you used to
+generate an answer, using comments in the code to clearly indicate which
+problem corresponds to which code.
+
+    \textbf{Acknowledgements}: Project adapted from assignments of Veronika
+Strnadova-Neeley.
+
+
+    % Add a bibliography block to the postdoc
+
+
+
+\end{document}
