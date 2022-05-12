@@ -397,7 +397,7 @@ CSCI-347: Data Mining
 Final Project
 
     \hypertarget{part-1-plan-20-points}{%
-\section{Part 1: Plan (20 points)}\label{part-1-plan-20-points}}
+\section*{Part 1: Plan (20 points)}\label{part-1-plan-20-points}}
 
     The problem that we are investigating is the association between
 developed liver disorders and the possible contributing factors that
@@ -432,14 +432,14 @@ totally ignore the categorical classification and run all testing over
 the entire dataset as a whole.
 
     \hypertarget{part-2-implement-30-points}{%
-\section{Part 2: Implement (30
+\section*{Part 2: Implement (30
 points)}\label{part-2-implement-30-points}}
 
     \hypertarget{setup-code}{%
-\subsection{Setup Code}\label{setup-code}}
+\subsection*{Setup Code}\label{setup-code}}
 
     \hypertarget{import-libraries}{%
-\subsubsection{Import Libraries}\label{import-libraries}}
+\subsubsection*{Import Libraries}\label{import-libraries}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{5}{\boxspacing}
@@ -455,7 +455,7 @@ points)}\label{part-2-implement-30-points}}
 \end{tcolorbox}
 
     \hypertarget{global-const.-variables}{%
-\subsubsection{Global (Const.)
+\subsubsection*{Global (Const.)
 Variables}\label{global-const.-variables}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
@@ -482,7 +482,7 @@ Variables}\label{global-const.-variables}}
 \end{tcolorbox}
 
     \hypertarget{data-import-function}{%
-\subsubsection{Data Import Function}\label{data-import-function}}
+\subsubsection*{Data Import Function}\label{data-import-function}}
 
     The following function is used read the data's file and parse the
 contents.
@@ -548,7 +548,7 @@ contents.
 \end{tcolorbox}
 
     \hypertarget{data-initialization}{%
-\subsection{Data Initialization}\label{data-initialization}}
+\subsection*{Data Initialization}\label{data-initialization}}
 
     Get the \texttt{RAW\_DATA} (2-dimensional array) from the file contents:
 
@@ -588,7 +588,7 @@ drive.mount("/content/drive", force\_remount=True).
 \end{tcolorbox}
 
     \hypertarget{data-preview}{%
-\subsubsection{Data Preview}\label{data-preview}}
+\subsubsection*{Data Preview}\label{data-preview}}
 
     The data is made up by 345 rows (instances) and 6 columns (attributes).
 
@@ -679,7 +679,7 @@ max                                            20.000000
 \end{tcolorbox}
         
     \hypertarget{estimated-covariance-matrix}{%
-\subsubsection{Estimated Covariance
+\subsubsection*{Estimated Covariance
 Matrix}\label{estimated-covariance-matrix}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
@@ -728,7 +728,7 @@ array([[  19.7855578 ,    3.59934277,   12.81884058,    8.40583923,
     \end{Verbatim}
 
     \hypertarget{eigenvalues}{%
-\subsubsection{Eigenvalues}\label{eigenvalues}}
+\subsubsection*{Eigenvalues}\label{eigenvalues}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{16}{\boxspacing}
@@ -829,7 +829,7 @@ array([[ 2.48915066e-02,  1.98561179e-03,  4.94442234e-03,
 \end{tcolorbox}
         
     \hypertarget{total-variance}{%
-\subsubsection{Total Variance}\label{total-variance}}
+\subsubsection*{Total Variance}\label{total-variance}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{22}{\boxspacing}
@@ -847,7 +847,7 @@ array([[ 2.48915066e-02,  1.98561179e-03,  4.94442234e-03,
 \end{tcolorbox}
         
     \hypertarget{mean-centering}{%
-\subsubsection{Mean Centering}\label{mean-centering}}
+\subsubsection*{Mean Centering}\label{mean-centering}}
 
     First, we must find the multi-dimensional mean:
 
@@ -897,7 +897,7 @@ array([[ -5.15942029,  22.13043478,  14.5942029 ,   2.35652174,
 \end{tcolorbox}
         
     \hypertarget{principle-component-analysis-pca}{%
-\subsubsection{Principle Component Analysis
+\subsubsection*{Principle Component Analysis
 (PCA)}\label{principle-component-analysis-pca}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
@@ -916,10 +916,10 @@ array([[ -5.15942029,  22.13043478,  14.5942029 ,   2.35652174,
 \end{tcolorbox}
 
     \hypertarget{data-visualization}{%
-\subsection{Data Visualization}\label{data-visualization}}
+\subsection*{Data Visualization}\label{data-visualization}}
 
     \hypertarget{raw-data}{%
-\subsubsection{Raw Data}\label{raw-data}}
+\subsubsection*{Raw Data}\label{raw-data}}
 
     Blood tests which are thought to be sensitive to liver disorder that
 might arise from excessive alcohol consumption.
@@ -943,7 +943,7 @@ might arise from excessive alcohol consumption.
     { \hspace*{\fill} \\}
     
     \hypertarget{original-data-v.s.-mean-centered-data}{%
-\subsubsection{Original Data v.s. Mean Centered
+\subsubsection*{Original Data v.s. Mean Centered
 Data}\label{original-data-v.s.-mean-centered-data}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
@@ -971,7 +971,7 @@ Data}\label{original-data-v.s.-mean-centered-data}}
     { \hspace*{\fill} \\}
     
     \hypertarget{centered-data-v.s.-projected-data}{%
-\subsubsection{Centered Data v.s. Projected
+\subsubsection*{Centered Data v.s. Projected
 Data}\label{centered-data-v.s.-projected-data}}
 
     Let's project our data on to the largest eigenvector.
@@ -1134,14 +1134,16 @@ that captures about 73\% of the total variance of the centered data set.
     { \hspace*{\fill} \\}
     
     \hypertarget{part-3-report-40-points}{%
-\section{Part 3: Report (40 points)}\label{part-3-report-40-points}}
+\section*{Part 3: Report (40 points)}\label{part-3-report-40-points}}
 
-    \#\#Problem Statement
+    \hypertarget{problem-statement}{%
+\subsection*{Problem Statement}\label{problem-statement}}
 
     We where hoping to help identify key characteristics that can help show
 potential signs of liver disorders.
 
-    \#\#Data
+    \hypertarget{data}{%
+\subsection*{Data}\label{data}}
 
     This data set had 345 intstances and 7 attributes with no missing
 values.
@@ -1150,13 +1152,15 @@ values.
 All of the attributes in our data were numerical.
 \end{quote}
 
-    \#\#Preprocessing Techniques
+    \hypertarget{preprocessing-techniques}{%
+\subsection*{Preprocessing Techniques}\label{preprocessing-techniques}}
 
     To preprocess our data, we used a few techiques. We mean centered our
 data so that our data results would be standardized between the
 techiques that require mean centering and those that do not.
 
-    \#\#Data Mining Techniques
+    \hypertarget{data-mining-techniques}{%
+\subsection*{Data Mining Techniques}\label{data-mining-techniques}}
 
     We used dimensionality reduction to identify which of the attributes has
 the greatest effect on PCA. We used PCA as it very quickly can give us a
@@ -1165,13 +1169,13 @@ It can also show us how greatly an attribute effects the position of a
 data point when a dimension is reduced.
 
     \hypertarget{analysis}{%
-\subsection{Analysis}\label{analysis}}
+\subsection*{Analysis}\label{analysis}}
 
     Data was taken from
 \href{https://archive.ics.uci.edu/ml/datasets/Liver+Disorders}{\emph{https://archive.ics.uci.edu/ml/datasets/Liver+Disorders}}
 
     \hypertarget{proportion-of-total-variance}{%
-\subsubsection{Proportion of Total
+\subsubsection*{Proportion of Total
 Variance}\label{proportion-of-total-variance}}
 
     In the direction of the largest eigenvalues, we capture 71\% of the
@@ -1194,7 +1198,7 @@ information.
 \end{tcolorbox}
         
     \hypertarget{missing-values}{%
-\subsubsection{Missing Values}\label{missing-values}}
+\subsubsection*{Missing Values}\label{missing-values}}
 
     There were no missing values from the data.
 
@@ -1218,21 +1222,24 @@ dtype: int64
 \end{Verbatim}
 \end{tcolorbox}
         
-    \#\#\#Results
+    \hypertarget{results}{%
+\subsubsection*{Results}\label{results}}
 
-    \#\#\#Time Constraints
+    \hypertarget{time-constraints}{%
+\subsubsection*{Time Constraints}\label{time-constraints}}
 
     We did not explore everything that we hoped to be able to when we
 started the project. We where not able to run the same techiques on the
 same dataset by separating the datasets into a test base and a real
 data. We where also not able to run the k-means algorithm.
 
-    \#Video Link
+    \hypertarget{video-link}{%
+\section*{Video Link}\label{video-link}}
 
     https://youtu.be/COPckqaGQb8
 
     \hypertarget{references}{%
-\section{References}\label{references}}
+\section*{References}\label{references}}
 
     Forsyth, Richard S. ``Liver Disorders Data Set.'' \emph{UCI Machine
 Learning Repository}, 15 May 1990,
