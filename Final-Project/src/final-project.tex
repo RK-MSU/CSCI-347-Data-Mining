@@ -1,0 +1,1254 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{final-project}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    River Kelly
+
+Kyler Gappa
+
+CSCI-347: Data Mining
+
+Final Project
+
+    \hypertarget{part-1-plan-20-points}{%
+\section*{Part 1: Plan (20 points)}\label{part-1-plan-20-points}}
+
+    The problem that we are investigating is the association between
+developed liver disorders and the possible contributing factors that
+lead to such a diagnosis. It is no question that the consumption of
+alcoholic beverages increases the chances of developing a liver
+disorder, but the question still remains why some people are more at
+risk than others. In addition to alcohol consumption, other compounds
+found in the liver have been found to have confounding associations.
+
+The data set that we have selected is the
+\href{https://archive.ics.uci.edu/ml/datasets/Liver+Disorders}{Liver
+Disorders Data Set} (Forsyth). The data set includes a total of seven
+attributes. The first five attributes are numerical values pulled from
+the blood test of the patient. Since these values are thought to be
+sensitive to liver disease, they may show common traits so that early
+detection is more viable. The next variable is the number of drinks of
+alcohol per day. This could be a connecting factor for some of the test
+results. The final attribute is a categorical variable to help separate
+the data into test or training sets.
+
+The data mining techniques that we will use to solve this problem
+include dimensionality reduction. There exists one categorical attribute
+within our data set that will need to be removed as it only contains
+information for if it was intended for a training dataset. We plan to
+use dimensionality reduction across all of the provided attributes in an
+attempt to identify which attributes have the greatest effect.
+
+If we run out of time we plan to not explore the differences in the
+training and test categories to reduce the scope of the project from two
+separate datasets to a single dataset. If this were to happen we would
+totally ignore the categorical classification and run all testing over
+the entire dataset as a whole.
+
+    \hypertarget{part-2-implement-30-points}{%
+\section*{Part 2: Implement (30
+points)}\label{part-2-implement-30-points}}
+
+    \hypertarget{setup-code}{%
+\subsection*{Setup Code}\label{setup-code}}
+
+    \hypertarget{import-libraries}{%
+\subsubsection*{Import Libraries}\label{import-libraries}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{decomposition} \PY{k+kn}{import} \PY{n}{PCA}
+\PY{k+kn}{from} \PY{n+nn}{google}\PY{n+nn}{.}\PY{n+nn}{colab} \PY{k+kn}{import} \PY{n}{drive}
+\PY{k+kn}{import} \PY{n+nn}{numpy}\PY{n+nn}{.}\PY{n+nn}{linalg} \PY{k}{as} \PY{n+nn}{LA}
+\PY{k+kn}{import} \PY{n+nn}{os}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{global-const.-variables}{%
+\subsubsection*{Global (Const.)
+Variables}\label{global-const.-variables}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} file path for the location of the data file}
+\PY{n}{DATA\PYZus{}FILENAME} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/content/drive/My Drive/347\PYZhy{}Data\PYZhy{}Mining/Final\PYZhy{}Project/data/bupa.data}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} dictionary of columns for the data}
+\PY{n}{DATA\PYZus{}COLUMN\PYZus{}NAMES} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mcv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mean Corpuscular Volume}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alkphos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Alkaline Phosphotase}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sgpt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Alamine Aminotransferase}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sgot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Aspartate Aminotransferase}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gmmagt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gamma\PYZhy{}Glutamyl Transpeptidase}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{drinks}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of half\PYZhy{}pint equivalents of alcoholic beverages drunk per day}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{c+c1}{\PYZsh{} \PYZsq{}selector\PYZsq{}: \PYZsq{}Group\PYZsq{} \PYZsh{} field used to split data into two sets}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{DATA\PYZus{}COL\PYZus{}VALS} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{DATA\PYZus{}COLUMN\PYZus{}NAMES}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{dot\PYZus{}colors} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{orange}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{data-import-function}{%
+\subsubsection*{Data Import Function}\label{data-import-function}}
+
+    The following function is used read the data's file and parse the
+contents.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GetRawDataFromFile()}
+\PY{c+c1}{\PYZsh{} returns a 2\PYZhy{}dimensional array of the data}
+\PY{k}{def} \PY{n+nf}{getRawDataFromFile}\PY{p}{(}\PY{n}{file}\PY{p}{:} \PY{n+nb}{str}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{list}\PY{p}{:}
+
+    \PY{c+c1}{\PYZsh{} mount to google drive}
+    \PY{n}{drive}\PY{o}{.}\PY{n}{mount}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/content/drive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} check that file exists}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{exists}\PY{p}{(}\PY{n}{file}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} file does NOT exist, raise error}
+        \PY{k}{raise} \PY{n+ne}{RuntimeError}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{File }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{file}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ does not exist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} read file\PYZsq{}s lines}
+    \PY{n}{lines} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{file}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:} \PY{n}{lines} \PY{o}{=} \PY{n}{f}\PY{o}{.}\PY{n}{readlines}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} unmount google drive}
+    \PY{n}{drive}\PY{o}{.}\PY{n}{flush\PYZus{}and\PYZus{}unmount}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} parse the lines content and create the 2\PYZhy{}dimensioal array}
+    \PY{n}{data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} iterate through each line}
+    \PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n}{lines}\PY{p}{:} 
+        \PY{c+c1}{\PYZsh{} clean the line string}
+        \PY{n}{line} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{line}\PY{p}{)}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} if line is empty, skip it}
+        \PY{k}{if} \PY{n}{line} \PY{o+ow}{is} \PY{k+kc}{None} \PY{o+ow}{or} \PY{n}{line} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}} \PY{o+ow}{or} \PY{n+nb}{len}\PY{p}{(}\PY{n}{line}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{:} \PY{k}{continue}
+
+        \PY{c+c1}{\PYZsh{} split the line (string) by seperator (\PYZdq{},\PYZdq{})}
+        \PY{n}{line\PYZus{}data} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} column 7 (index: 6) needs to be removed}
+        \PY{n}{line\PYZus{}data}\PY{o}{.}\PY{n}{pop}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} each value in the \PYZsq{}line\PYZus{}data\PYZsq{} needs to be converted to a}
+        \PY{c+c1}{\PYZsh{} numerical type.}
+        \PY{c+c1}{\PYZsh{} All of the columns in the data are of type \PYZdq{}int\PYZdq{}, except}
+        \PY{c+c1}{\PYZsh{} for one, column[5], which is a float}
+        \PY{k}{for} \PY{n}{data\PYZus{}item\PYZus{}index}\PY{p}{,} \PY{n}{data\PYZus{}item} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{line\PYZus{}data}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} is current column index 5?}
+            \PY{k}{if} \PY{n}{data\PYZus{}item\PYZus{}index} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} cast to type float}
+                \PY{n}{data\PYZus{}item} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{n}{data\PYZus{}item}\PY{p}{)}
+            \PY{k}{else}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} cast to type int}
+                \PY{n}{data\PYZus{}item} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{data\PYZus{}item}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} update the data\PYZus{}item value after type casting}
+            \PY{n}{line\PYZus{}data}\PY{p}{[}\PY{n}{data\PYZus{}item\PYZus{}index}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}item}
+        \PY{c+c1}{\PYZsh{} append row to (raw) data array}
+        \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{line\PYZus{}data}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} return the raw data}
+    \PY{k}{return} \PY{n}{data}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{data-initialization}{%
+\subsection*{Data Initialization}\label{data-initialization}}
+
+    Get the \texttt{RAW\_DATA} (2-dimensional array) from the file contents:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} populate the raw data from the source file contents}
+\PY{n}{RAW\PYZus{}DATA} \PY{o}{=} \PY{n}{getRawDataFromFile}\PY{p}{(}\PY{n}{DATA\PYZus{}FILENAME}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Drive already mounted at /content/drive; to attempt to forcibly remount, call
+drive.mount("/content/drive", force\_remount=True).
+    \end{Verbatim}
+
+    Initialize \texttt{DataFrame}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create a dataFrame from the RAW\PYZus{}DATA}
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{RAW\PYZus{}DATA}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{DATA\PYZus{}COLUMN\PYZus{}NAMES}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Initialize \texttt{numpy.ndarray}:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create a numpy multi\PYZhy{}dim. array from the RAW\PYZus{}DATA}
+\PY{n}{D} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{RAW\PYZus{}DATA}\PY{p}{)}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{RAW\PYZus{}DATA}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} populate the numpy data matrix (array)}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{RAW\PYZus{}DATA}\PY{p}{)}\PY{p}{:} \PY{n}{D}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{data-preview}{%
+\subsubsection*{Data Preview}\label{data-preview}}
+
+    The data is made up by 345 rows (instances) and 6 columns (attributes).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{D}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(345, 6)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{D}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[85., 92., 45., 27., 31.,  0.],
+       [85., 64., 59., 32., 23.,  0.],
+       [86., 54., 33., 16., 54.,  0.],
+       {\ldots},
+       [98., 77., 55., 35., 89., 15.],
+       [91., 68., 27., 26., 14., 16.],
+       [98., 99., 57., 45., 65., 20.]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       Mean Corpuscular Volume  Alkaline Phosphotase  \textbackslash{}
+count               345.000000            345.000000
+mean                 90.159420             69.869565
+std                   4.448096             18.347670
+min                  65.000000             23.000000
+25\%                  87.000000             57.000000
+50\%                  90.000000             67.000000
+75\%                  93.000000             80.000000
+max                 103.000000            138.000000
+
+       Alamine Aminotransferase  Aspartate Aminotransferase  \textbackslash{}
+count                345.000000                  345.000000
+mean                  30.405797                   24.643478
+std                   19.512309                   10.064494
+min                    4.000000                    5.000000
+25\%                   19.000000                   19.000000
+50\%                   26.000000                   23.000000
+75\%                   34.000000                   27.000000
+max                  155.000000                   82.000000
+
+       Gamma-Glutamyl Transpeptidase  \textbackslash{}
+count                     345.000000
+mean                       38.284058
+std                        39.254616
+min                         5.000000
+25\%                        15.000000
+50\%                        25.000000
+75\%                        46.000000
+max                       297.000000
+
+       Number of half-pint equivalents of alcoholic beverages drunk per day
+count                                         345.000000
+mean                                            3.455072
+std                                             3.337835
+min                                             0.000000
+25\%                                             0.500000
+50\%                                             3.000000
+75\%                                             6.000000
+max                                            20.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{estimated-covariance-matrix}{%
+\subsubsection*{Estimated Covariance
+Matrix}\label{estimated-covariance-matrix}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} get the covariave matrix}
+\PY{n}{Sigma} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cov}\PY{p}{(}\PY{n}{D}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{Sigma}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[  19.7855578 ,    3.59934277,   12.81884058,    8.40583923,
+          38.81795585,    4.6423576 ],
+       [   3.59934277,  336.63700708,   27.28273509,   26.97080384,
+          95.89180991,    6.17290192],
+       [  12.81884058,   27.28273509,  380.73019885,  145.25846815,
+         385.60532524,   13.47177283],
+       [   8.40583923,   26.97080384,  145.25846815,  101.29403438,
+         208.45331143,    9.39236603],
+       [  38.81795585,   95.89180991,  385.60532524,  208.45331143,
+        1540.92489046,   44.70902005],
+       [   4.6423576 ,    6.17290192,   13.47177283,    9.39236603,
+          44.70902005,   11.14114425]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} print the covariance matrix}
+\PY{n}{frmt\PYZus{}str} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{[ }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}:\PYZlt{}7.2f\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{*} \PY{n}{Sigma}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ ]}\PY{l+s+s1}{\PYZsq{}}
+\PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{Sigma}\PY{p}{:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{frmt\PYZus{}str}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{o}{*}\PY{n}{row}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ 19.79   3.60    12.82   8.41    38.82   4.64    ]
+[ 3.60    336.64  27.28   26.97   95.89   6.17    ]
+[ 12.82   27.28   380.73  145.26  385.61  13.47   ]
+[ 8.41    26.97   145.26  101.29  208.45  9.39    ]
+[ 38.82   95.89   385.61  208.45  1540.92 44.71   ]
+[ 4.64    6.17    13.47   9.39    44.71   11.14   ]
+    \end{Verbatim}
+
+    \hypertarget{eigenvalues}{%
+\subsubsection*{Eigenvalues}\label{eigenvalues}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evalues}\PY{p}{,} \PY{n}{evectors} \PY{o}{=} \PY{n}{LA}\PY{o}{.}\PY{n}{eig}\PY{p}{(}\PY{n}{Sigma}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evalues}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([1704.23455772,    8.51379717,   19.59323592,   37.76391713,
+        290.92117087,  329.48615401])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evectors}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 2.48915066e-02,  3.11252804e-01, -9.43765959e-01,
+         1.08533543e-01,  4.94442234e-03,  1.98561179e-03],
+       [ 7.49485205e-02,  6.73102408e-03,  1.32930005e-03,
+        -4.14076557e-02, -3.81810281e-02,  9.95571826e-01],
+       [ 2.92623798e-01, -1.30836279e-02, -3.21086702e-02,
+        -3.49274184e-01,  8.89478140e-01, -2.31264856e-03],
+       [ 1.50393856e-01,  5.10442210e-02,  1.28881103e-01,
+         9.24576654e-01,  3.19083539e-01,  3.88528379e-02],
+       [ 9.40591759e-01,  1.57223279e-02,  2.33472488e-02,
+        -4.14320645e-02, -3.24855878e-01, -8.51287245e-02],
+       [ 2.83421198e-02, -9.48710968e-01, -3.01857001e-01,
+         8.91897708e-02,  8.68807215e-04,  8.42648015e-03]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Sort eigenvalues (and corresponding vectors) in decending order.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{idx} \PY{o}{=} \PY{n}{evalues}\PY{o}{.}\PY{n}{argsort}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{evalues} \PY{o}{=} \PY{n}{evalues}\PY{p}{[}\PY{n}{idx}\PY{p}{]}
+\PY{n}{evectors} \PY{o}{=} \PY{n}{evectors}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{idx}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evalues}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([1704.23455772,  329.48615401,  290.92117087,   37.76391713,
+         19.59323592,    8.51379717])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evectors}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ 2.48915066e-02,  1.98561179e-03,  4.94442234e-03,
+         1.08533543e-01, -9.43765959e-01,  3.11252804e-01],
+       [ 7.49485205e-02,  9.95571826e-01, -3.81810281e-02,
+        -4.14076557e-02,  1.32930005e-03,  6.73102408e-03],
+       [ 2.92623798e-01, -2.31264856e-03,  8.89478140e-01,
+        -3.49274184e-01, -3.21086702e-02, -1.30836279e-02],
+       [ 1.50393856e-01,  3.88528379e-02,  3.19083539e-01,
+         9.24576654e-01,  1.28881103e-01,  5.10442210e-02],
+       [ 9.40591759e-01, -8.51287245e-02, -3.24855878e-01,
+        -4.14320645e-02,  2.33472488e-02,  1.57223279e-02],
+       [ 2.83421198e-02,  8.42648015e-03,  8.68807215e-04,
+         8.91897708e-02, -3.01857001e-01, -9.48710968e-01]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{total-variance}{%
+\subsubsection*{Total Variance}\label{total-variance}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{total\PYZus{}var} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{diag}\PY{p}{(}\PY{n}{Sigma}\PY{p}{)}\PY{p}{)}
+\PY{n}{total\PYZus{}var}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+2390.512832827772
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{mean-centering}{%
+\subsubsection*{Mean Centering}\label{mean-centering}}
+
+    First, we must find the multi-dimensional mean:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{multi\PYZus{}d\PYZus{}mean} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{D}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{multi\PYZus{}d\PYZus{}mean}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([90.15942029, 69.86956522, 30.4057971 , 24.64347826, 38.28405797,
+        3.45507246])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Now we can center our data from the multi-dimensional mean:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{centered\PYZus{}data} \PY{o}{=} \PY{n}{D} \PY{o}{\PYZhy{}} \PY{n}{multi\PYZus{}d\PYZus{}mean}
+\PY{n}{centered\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[ -5.15942029,  22.13043478,  14.5942029 ,   2.35652174,
+         -7.28405797,  -3.45507246],
+       [ -5.15942029,  -5.86956522,  28.5942029 ,   7.35652174,
+        -15.28405797,  -3.45507246],
+       [ -4.15942029, -15.86956522,   2.5942029 ,  -8.64347826,
+         15.71594203,  -3.45507246],
+       {\ldots},
+       [  7.84057971,   7.13043478,  24.5942029 ,  10.35652174,
+         50.71594203,  11.54492754],
+       [  0.84057971,  -1.86956522,  -3.4057971 ,   1.35652174,
+        -24.28405797,  12.54492754],
+       [  7.84057971,  29.13043478,  26.5942029 ,  20.35652174,
+         26.71594203,  16.54492754]])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{principle-component-analysis-pca}{%
+\subsubsection*{Principle Component Analysis
+(PCA)}\label{principle-component-analysis-pca}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pca} \PY{o}{=} \PY{n}{PCA}\PY{p}{(}\PY{n}{n\PYZus{}components}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pca\PYZus{}transformed\PYZus{}D} \PY{o}{=} \PY{n}{pca}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{D}\PY{p}{)}
+\PY{n}{pca\PYZus{}transformed\PYZus{}centered\PYZus{}D} \PY{o}{=} \PY{n}{pca}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{centered\PYZus{}data}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{data-visualization}{%
+\subsection*{Data Visualization}\label{data-visualization}}
+
+    \hypertarget{raw-data}{%
+\subsubsection*{Raw Data}\label{raw-data}}
+
+    Blood tests which are thought to be sensitive to liver disorder that
+might arise from excessive alcohol consumption.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{dot\PYZus{}colors}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{DATA\PYZus{}COL\PYZus{}VALS}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Measurement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{n}{DATA\PYZus{}COL\PYZus{}VALS}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{final-project_files/final-project_48_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{original-data-v.s.-mean-centered-data}{%
+\subsubsection*{Original Data v.s. Mean Centered
+Data}\label{original-data-v.s.-mean-centered-data}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{ax1} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{l+m+mi}{111}\PY{p}{)}
+\PY{n}{ax2} \PY{o}{=} \PY{n}{ax1}\PY{o}{.}\PY{n}{twinx}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ax2}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{centered\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{centered\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{centered data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Original Data Measurements}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Centered Data Measurements}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{n}{DATA\PYZus{}COL\PYZus{}VALS}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{final-project_files/final-project_50_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{centered-data-v.s.-projected-data}{%
+\subsubsection*{Centered Data v.s. Projected
+Data}\label{centered-data-v.s.-projected-data}}
+
+    Let's project our data on to the largest eigenvector.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Sigma\PYZus{}centered} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cov}\PY{p}{(}\PY{n}{pca\PYZus{}transformed\PYZus{}centered\PYZus{}D}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{n}{evalues\PYZus{}centered}\PY{p}{,} \PY{n}{evectors\PYZus{}centered} \PY{o}{=} \PY{n}{LA}\PY{o}{.}\PY{n}{eig}\PY{p}{(}\PY{n}{Sigma\PYZus{}centered}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} sort}
+\PY{n}{idx} \PY{o}{=} \PY{n}{evalues\PYZus{}centered}\PY{o}{.}\PY{n}{argsort}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{evalues\PYZus{}centered} \PY{o}{=} \PY{n}{evalues\PYZus{}centered}\PY{p}{[}\PY{n}{idx}\PY{p}{]}
+\PY{n}{evectors\PYZus{}centered} \PY{o}{=} \PY{n}{evectors\PYZus{}centered}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{idx}\PY{p}{]}
+
+\PY{n}{coords\PYZus{}along\PYZus{}eig0} \PY{o}{=} \PY{n}{evectors\PYZus{}centered}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{T}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{pca\PYZus{}transformed\PYZus{}centered\PYZus{}D}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\PY{n}{coords\PYZus{}along\PYZus{}eig1} \PY{o}{=} \PY{n}{evectors\PYZus{}centered}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{T}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{pca\PYZus{}transformed\PYZus{}centered\PYZus{}D}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\PY{n}{coords\PYZus{}along\PYZus{}eig0}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([-7.94013907e-01, -5.56860410e+00,  1.28506263e+01, -6.61028704e-01,
+       -3.16517168e+01, -2.72797043e+01, -3.24661762e+01, -3.08199894e+01,
+       -3.38109526e+01, -3.45647505e+01, -2.85428289e+01, -2.78498460e+01,
+       -1.42506455e+01, -2.11624988e+01, -2.69263222e+01, -2.06214855e+01,
+       -3.03984727e+01, -2.54608889e+01,  1.56401760e+01, -2.66157360e+01,
+       -1.93977566e+01, -2.00776630e+01, -3.39468473e+01, -2.26958953e+01,
+        6.18625502e+01, -1.52080423e+01, -2.30350924e+01, -3.06242149e+01,
+       -2.14670900e+01, -2.39611948e+01, -2.15265037e+01,  2.39450873e+00,
+       -8.74377620e+00,  2.18298389e+00, -2.94751566e+01,  8.41954814e+01,
+       -1.06056017e+01, -3.58689708e+01, -8.24794406e+00, -3.46749835e+00,
+        1.96572444e+01,  4.11234216e+00, -2.51380221e+01, -2.53193786e+01,
+       -2.28387419e+01, -2.84698060e+01, -3.37818461e+01,  9.20970930e+00,
+       -2.76135229e+01, -3.12557509e+00, -2.43480207e+01, -2.85873056e+01,
+        5.91795101e+01, -3.11723763e+00, -1.28947144e+01, -2.39898569e+01,
+       -2.07666550e+01, -2.32826200e+01, -3.38703651e+00, -1.60093160e+01,
+       -1.03990614e+01, -2.52581126e+01, -3.51892997e+01, -3.19709530e+01,
+       -1.10594350e+01, -1.96900438e+01, -3.17387692e+01, -1.73743289e+01,
+       -2.56794384e+01, -2.81932345e+01,  1.63854503e+01, -2.85360694e+00,
+       -2.93484245e+01, -1.46234448e+01, -2.58873164e+01, -7.29083906e-01,
+        1.16301672e+02, -9.08084068e+00, -2.83051967e+01, -8.04630172e+00,
+        2.83832954e+01,  1.03569424e+01, -1.41477256e+01, -1.61410305e+01,
+        2.42846609e+02, -1.61410305e+01, -9.57840152e+00, -3.17739719e+01,
+       -2.81040173e+01, -3.15990006e+01, -1.33056278e+01, -3.58649769e+01,
+       -2.27294490e+00, -2.63260741e+01, -1.36310763e+01, -1.53614485e+01,
+        1.52608902e+01,  6.00376631e+01, -4.84346965e+00, -1.41032602e+01,
+       -1.57310722e+01,  3.41650803e+01, -2.92373608e+01, -2.65888457e+01,
+       -2.34268121e+01, -2.29878703e+01, -8.13561148e+00, -1.68010763e+01,
+       -3.66312398e+01,  1.26547626e+01, -2.50423768e+01, -1.60626511e+01,
+       -2.37080007e+01, -2.11195252e+01,  1.29635072e+02, -3.59170128e+01,
+       -2.24706213e+01, -2.81648875e+01, -1.66571795e+01, -2.76964173e+01,
+        9.84917291e+00, -1.58736582e+01, -2.35225047e+01, -1.83380989e+01,
+       -5.21300315e+00, -2.84349426e+01,  7.01217024e+00,  3.98415774e+01,
+       -2.96942425e+01, -1.99339260e+01, -9.22284434e+00, -2.17677681e+01,
+        7.21982565e+01,  1.30584793e+02, -3.09289297e+01, -2.87036818e+01,
+       -1.88240683e+01, -1.91911334e+01,  6.75571679e+01, -3.09855758e+01,
+       -2.20878390e+01, -1.19069955e+01, -2.37004572e+01, -1.23857098e+00,
+       -2.98914338e+01,  1.26284222e+01,  9.86913782e+00,  4.75188874e+01,
+       -2.09618560e+01, -2.37004572e+01,  6.20713708e+01, -1.27406522e+00,
+       -2.18859075e+01, -3.11195147e+01,  3.43941317e+01,  2.82418243e+01,
+        4.77868760e+01,  1.46139275e+01,  1.45090132e+01, -2.26821924e+01,
+        2.64758524e+01, -2.49425819e+01, -8.70750716e+00,  3.81068131e+00,
+       -2.84245991e+01, -1.04233978e+01,  5.65232182e+01,  8.83734968e+01,
+        3.49742559e+01,  1.24759791e+01, -9.48512403e+00,  3.41344077e+01,
+       -1.97299031e+01, -3.31627144e+01,  8.69212714e+01,  1.24759791e+01,
+        2.46257040e+01, -2.80777293e+01,  1.73655039e+02,  1.07905400e+01,
+        3.17153878e+01,  7.96647426e+01,  1.26425097e+01, -1.43188504e+01,
+        3.36506764e+01,  2.84408340e+01,  6.34201428e+01,  1.01954878e+01,
+        7.09081255e+01,  1.70810128e+02, -2.47632547e+01, -2.90799978e+01,
+       -1.72682324e+00, -2.20002213e+01, -3.74839664e+01, -2.59067183e+01,
+       -2.90954503e+01, -2.15012307e+01, -1.74055503e+01, -2.91022786e+01,
+       -1.95560567e+01, -2.86208677e+01,  2.22451181e+01, -1.99099385e+01,
+        9.38126360e+01, -6.06023867e+00, -2.76379176e+01, -2.02262355e+01,
+       -1.64169712e+01, -3.34981419e+01, -1.64642682e+01, -1.01765438e+01,
+       -7.46453247e+00, -2.97241294e+01, -2.85930086e+01, -2.02102714e+01,
+       -3.31876259e+01,  1.85884839e+01, -2.18144432e+01,  9.26434637e+00,
+       -2.61755367e+00, -1.79194272e+01, -2.81464522e+01, -2.81022157e+01,
+       -2.99045277e+01, -2.57889930e+01,  2.00286155e+00,  2.97032682e+01,
+        1.18884964e+01,  2.03997540e+01, -1.27592347e+01, -1.57567593e+01,
+        1.55949575e+02, -2.86218448e+00,  2.57490567e+01, -8.15251311e+00,
+       -1.96737203e+01, -9.53444531e+00, -3.08101738e+01, -1.99156007e+01,
+       -2.23778522e+01, -3.07255197e+01, -2.56423174e+01, -5.37732266e+00,
+       -2.33751907e+01, -2.57318869e+01, -2.25193348e+01, -3.04075154e+01,
+       -2.80691506e+01,  4.75260521e+01, -2.84727865e+00,  7.18450897e+01,
+       -2.55019474e+01,  1.22309054e+01,  5.23915762e+00, -1.52910340e+01,
+       -2.44874860e+01, -1.74928034e+01, -2.19798612e+01, -7.61009312e+00,
+        3.55174703e+01, -1.50206801e+01, -1.01976138e+01, -2.09646309e+01,
+        3.11772659e+01, -1.07715560e+01, -3.18157857e+01, -8.98664570e+00,
+       -2.68006294e+00, -2.32313106e+01, -2.97339128e+01, -1.77252253e+01,
+       -3.13539472e+01, -2.58348536e+01, -1.58880656e+01, -5.20244477e+00,
+        4.24192406e+01,  2.99829671e+01, -6.22141837e+00,  1.16201089e+01,
+       -1.31915122e+01, -2.44249529e+01, -3.13146674e+01, -1.93006472e+01,
+       -1.86349889e+01,  3.48949015e+01, -2.53143407e+01, -1.17550748e+01,
+        6.43976833e+00,  1.70666800e+00, -2.98611344e+00, -2.79760520e+01,
+       -2.37412567e+01,  6.55178864e+01,  2.38276831e+01,  1.06442486e+01,
+       -8.18873375e+00,  1.69826668e+01, -2.19834009e+01,  1.20691815e+02,
+       -1.28001380e+01, -3.31428015e+01, -3.07920310e+01,  2.90570255e+00,
+        5.92353668e+00, -8.00506849e+00,  7.46488945e+01, -1.18166635e+01,
+       -2.90473276e+01, -2.93237018e+00,  5.66614903e+01,  4.96158678e+01,
+        5.93276227e+00, -2.10093392e+01, -2.28731489e+01,  1.67116629e+02,
+        9.73040788e+01, -2.20878390e+01,  4.01985705e+00,  7.72639940e+00,
+       -1.13847795e+01, -1.20970644e+00,  1.65311059e+02, -3.07436469e+01,
+       -2.50254305e+01, -1.76704030e-01,  6.07976538e-01, -1.27709048e+01,
+       -3.34606936e+00,  3.10228175e-01,  1.73116035e+02,  1.02788343e+01,
+       -9.99387384e+00,  9.32390209e+01,  1.81740850e+01, -1.60813582e+00,
+       -1.33034138e+01,  3.48377442e+00, -2.90276768e+01,  2.38699141e+01,
+        2.01533164e+00,  1.64625157e+02,  5.75141905e+01, -2.33976376e+01,
+        3.88197525e+01])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Observe that now, we now have a 1 dimensional representation of our data
+that captures about 73\% of the total variance of the centered data set.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evalues\PYZus{}centered}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{/}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{diag}\PY{p}{(}\PY{n}{Sigma\PYZus{}centered}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.8379884946288922
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{projected\PYZus{}along\PYZus{}eig0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{coords\PYZus{}along\PYZus{}eig0}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{projected\PYZus{}along\PYZus{}eig0}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{coords\PYZus{}along\PYZus{}eig0}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{n}{evectors\PYZus{}centered}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{projected\PYZus{}along\PYZus{}eig1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{coords\PYZus{}along\PYZus{}eig1}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{projected\PYZus{}along\PYZus{}eig1}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{coords\PYZus{}along\PYZus{}eig1}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{n}{evectors\PYZus{}centered}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
+
+\PY{n}{pjdev0} \PY{o}{=} \PY{n}{projected\PYZus{}along\PYZus{}eig0}
+\PY{n}{pjdev1} \PY{o}{=} \PY{n}{projected\PYZus{}along\PYZus{}eig1}
+
+\PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{l+m+mi}{111}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pca\PYZus{}transformed\PYZus{}centered\PYZus{}D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pca\PYZus{}transformed\PYZus{}centered\PYZus{}D}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PCA Transformed Centered Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pjdev0}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pjdev0}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1\PYZhy{}dimensional pca\PYZhy{}transformed data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{pjdev1}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{pjdev1}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1\PYZhy{}dimensional transformed data onto evec 1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Scatter plot of PCA\PYZhy{}transformed data and Projected Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{final-project_files/final-project_56_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{part-3-report-40-points}{%
+\section*{Part 3: Report (40 points)}\label{part-3-report-40-points}}
+
+    \hypertarget{problem-statement}{%
+\subsection*{Problem Statement}\label{problem-statement}}
+
+    We where hoping to help identify key characteristics that can help show
+potential signs of liver disorders.
+
+    \hypertarget{data}{%
+\subsection*{Data}\label{data}}
+
+    This data set had 345 intstances and 7 attributes with no missing
+values.
+
+\begin{quote}
+All of the attributes in our data were numerical.
+\end{quote}
+
+    \hypertarget{preprocessing-techniques}{%
+\subsection*{Preprocessing Techniques}\label{preprocessing-techniques}}
+
+    To preprocess our data, we used a few techiques. We mean centered our
+data so that our data results would be standardized between the
+techiques that require mean centering and those that do not.
+
+    \hypertarget{data-mining-techniques}{%
+\subsection*{Data Mining Techniques}\label{data-mining-techniques}}
+
+    We used dimensionality reduction to identify which of the attributes has
+the greatest effect on PCA. We used PCA as it very quickly can give us a
+good estimation on which attributes hold the majority of the variance.
+It can also show us how greatly an attribute effects the position of a
+data point when a dimension is reduced.
+
+    \hypertarget{analysis}{%
+\subsection*{Analysis}\label{analysis}}
+
+    Data was taken from
+\href{https://archive.ics.uci.edu/ml/datasets/Liver+Disorders}{\emph{https://archive.ics.uci.edu/ml/datasets/Liver+Disorders}}
+
+    \hypertarget{proportion-of-total-variance}{%
+\subsubsection*{Proportion of Total
+Variance}\label{proportion-of-total-variance}}
+
+    In the direction of the largest eigenvalues, we capture 71\% of the
+total variance. This shows us that while there is a large amount of data
+in the major components, the other components may still contain valuable
+information.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evalues}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{/}\PY{n}{total\PYZus{}var}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.7129158791006928
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{missing-values}{%
+\subsubsection*{Missing Values}\label{missing-values}}
+
+    There were no missing values from the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Mean Corpuscular Volume                                                 0
+Alkaline Phosphotase                                                    0
+Alamine Aminotransferase                                                0
+Aspartate Aminotransferase                                              0
+Gamma-Glutamyl Transpeptidase                                           0
+Number of half-pint equivalents of alcoholic beverages drunk per day    0
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{results}{%
+\subsubsection*{Results}\label{results}}
+
+    \hypertarget{time-constraints}{%
+\subsubsection*{Time Constraints}\label{time-constraints}}
+
+    We did not explore everything that we hoped to be able to when we
+started the project. We where not able to run the same techiques on the
+same dataset by separating the datasets into a test base and a real
+data. We where also not able to run the k-means algorithm.
+
+    \hypertarget{video-link}{%
+\section*{Video Link}\label{video-link}}
+
+    https://youtu.be/COPckqaGQb8
+
+    \hypertarget{references}{%
+\section*{References}\label{references}}
+
+    Forsyth, Richard S. ``Liver Disorders Data Set.'' \emph{UCI Machine
+Learning Repository}, 15 May 1990,
+\href{https://archive.ics.uci.edu/ml/datasets/Liver+Disorders}{\emph{https://archive.ics.uci.edu/ml/datasets/Liver+Disorders}}.
+Accessed 14 April 2022.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
